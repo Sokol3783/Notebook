@@ -50,7 +50,6 @@ public class Account {
     String login;
     @NotBlank(message = "phone should not be blank")
     String phone;
-    String position;
     @OneToMany(fetch = FetchType.LAZY)
     @Exclude
     List<Note> noteEntities;
