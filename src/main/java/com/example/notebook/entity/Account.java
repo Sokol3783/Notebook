@@ -8,6 +8,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -19,35 +20,40 @@ import lombok.ToString;
 import lombok.ToString.Exclude;
 import org.hibernate.Hibernate;
 
-
 @Getter
 @Setter
 @ToString
 @RequiredArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "note")
-public class Note {
+@Table(name = "account")
+public class Account {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "note_id", nullable = false)
-    private long id;
+    @Column(name = "account_id", nullable = false)
+    long id;
 
-    @Column(name = "first_name", nullable = false)
+    @NotBlank(message = "name should not be blank")
     String firstName;
-    @Column(name = "last_name", nullable = false)
-    String lastName;
-    @Column(name = "second_name", nullable = false)
-    String secondName;
-    @OneToMany(fetch = FetchType.LAZY)
-    @Exclude
-    List<ContactInfo> addresses;
-    @OneToMany(fetch = FetchType.LAZY)
-    @Exclude
-    List<ContactInfo> phones;
 
+    @NotBlank(message = "first name should not be blank")
+    String lastName;
+
+    @NotBlank(message = "first name should not be blank")
+    String email;
+
+    @NotBlank(message = "password should not be blank")
+    String password;
+
+    @NotBlank(message = "login should not be blank")
+    String login;
+    @NotBlank(message = "phone should not be blank")
+    String phone;
+    String position;
     @OneToMany(fetch = FetchType.LAZY)
-    List<Tips> tips;
+    @Exclude
+    List<Note> noteEntities;
 
     @Override
     public boolean equals(Object o) {
@@ -57,8 +63,8 @@ public class Note {
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) {
             return false;
         }
-        Note note = (Note) o;
-        return !Optional.of(getId()).isEmpty()  && Objects.equals(getId(), note.getId());
+        Account account = (Account) o;
+        return Optional.of(getId()).isPresent() && Objects.equals(getId(), account.getId());
     }
 
     @Override

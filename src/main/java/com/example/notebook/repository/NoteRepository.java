@@ -1,10 +1,11 @@
 package com.example.notebook.repository;
 
-
-import com.example.notebook.entity.Tips;
+import com.example.notebook.entity.Note;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
-public interface TipsEntityRepository extends PagingAndSortingRepository<Tips, Long>, CrudRepository<Tips, Long> {
+public interface NoteRepository extends PagingAndSortingRepository<Note, Long>,
+    CrudRepository<Note, Long> {
+
 }
 

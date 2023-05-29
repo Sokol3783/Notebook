@@ -5,26 +5,27 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
 
 @Entity
 @Data
-@Table(name = "type_contact_info")
-public class TypeContactInfo {
+@Table(name = "type_tips_info")
+public class TypeTips {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "id", nullable = false)
+  @Column(name = "type_tips_info_id", nullable = false)
   private Long id;
   private String name;
 
-  enum DefaultTypeContactInfo {
+  @ManyToOne
+  private Account owner;
 
-    PHONE(1, "Phone"),
-    MAIL(2, "Mail");
-
-    DefaultTypeContactInfo(int i, String mail) {
-    }
+  enum DefaultTypeTipsInfo {
+    POSITION,
+    SCHOOL,
+    OTHER
   }
 
 }

@@ -5,6 +5,6 @@ import com.example.notebook.entity.ContactInfo;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
-public interface ContactInfoEntityRepository extends PagingAndSortingRepository<ContactInfo, Long>, CrudRepository<ContactInfo, Long> {
+public interface ContactInfoRepository extends PagingAndSortingRepository<ContactInfo, Long>, CrudRepository<ContactInfo, Long> {
 }
 
