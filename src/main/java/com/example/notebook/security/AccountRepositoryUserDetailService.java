@@ -3,7 +3,6 @@ package com.example.notebook.security;
 import com.example.notebook.entity.Account;
 import com.example.notebook.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -18,13 +17,12 @@ public class AccountRepositoryUserDetailService implements UserDetailsService {
     this.accountRepository = accountRepository;
   }
 
-  @Bean
-  public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
-      Account account = accountRepository.findByLogin(login);
-      if (account != null) {
-        return account;
-      }
-      throw new UsernameNotFoundException("Account with" + login + " not found");
+  @Override
+  public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    Account account = accountRepository.findByLogin(username);
+    if (account != null) {
+      return account;
     }
-}
+    throw new UsernameNotFoundException("Account with" + username + " not found");
+  }
 }
