@@ -7,6 +7,6 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 
 public interface AccountRepository extends PagingAndSortingRepository<Account, Long>,
     CrudRepository<Account, Long> {
-
+    Account findByLogin(String login);
 }
 
