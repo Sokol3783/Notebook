@@ -16,7 +16,6 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import lombok.ToString.Exclude;
 import org.hibernate.Hibernate;
 
 
@@ -40,14 +39,10 @@ public class Note {
     @Column(name = "second_name", nullable = false)
     String secondName;
     @OneToMany(fetch = FetchType.LAZY)
-    @Exclude
-    List<ContactInfo> addresses;
-    @OneToMany(fetch = FetchType.LAZY)
-    @Exclude
-    List<ContactInfo> phones;
+    List<ContactInfo> contactInfoList;
 
     @OneToMany(fetch = FetchType.LAZY)
-    List<Tips> tips;
+    List<Notice> tips;
 
     @Override
     public boolean equals(Object o) {

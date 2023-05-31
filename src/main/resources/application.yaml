@@ -1,11 +1,12 @@
-# ????????? ???? ?????? H2
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/notebook
     driverClassName: org.postgresql.Driver
-    username: postgres
-    password: postgres
+    username: notebook_admin
+    password: secret
   jpa:
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
+  sql:
+    init:
+      mode: never

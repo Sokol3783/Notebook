@@ -11,11 +11,11 @@ import lombok.Data;
 
 @Entity
 @Data
-@Table(name = "type_tips_info")
-public class TypeTips {
+@Table(name = "notice_type")
+public class NoticeType {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "type_tips_info_id", nullable = false)
+  @Column(name = "notice_type_id", nullable = false)
   private Long id;
   private String name;
 

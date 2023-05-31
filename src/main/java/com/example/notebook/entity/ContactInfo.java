@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.util.Objects;
 import java.util.Optional;
@@ -27,6 +28,8 @@ public class ContactInfo {
     private Long id;
     private String name;
     private String type;
+    @ManyToOne
+    private Account owner;
 
     @Override
     public boolean equals(Object o) {
@@ -44,13 +47,4 @@ public class ContactInfo {
     public int hashCode() {
         return getClass().hashCode();
     }
-
-     enum ContactInfoType {
-        PHONE("phone"),
-        EMAIL("email");
-
-
-         ContactInfoType(String email) {
-         }
-     }
 }

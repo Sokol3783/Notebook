@@ -17,11 +17,11 @@ import org.hibernate.Hibernate;
 @RequiredArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "tips")
-public class Tips {
+@Table(name = "notice")
+public class Notice {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "tips_id", nullable = false)
+    @Column(name = "notice_id", nullable = false)
     private long id;
     String title;
     String content;
@@ -34,8 +34,8 @@ public class Tips {
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) {
             return false;
         }
-        Tips tips = (Tips) o;
-        return !Optional.of(getId()).isEmpty() && Objects.equals(getId(), tips.getId());
+        Notice notice = (Notice) o;
+        return !Optional.of(getId()).isEmpty() && Objects.equals(getId(), notice.getId());
     }
 
     @Override

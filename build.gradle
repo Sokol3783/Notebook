@@ -32,6 +32,7 @@ dependencies {
     implementation 'org.postgresql:postgresql'
     implementation 'org.hibernate:hibernate-core-jakarta:5.6.15.Final'
     implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     annotationProcessor 'org.projectlombok:lombok'
