@@ -38,6 +38,7 @@ public class Note {
     String lastName;
     @Column(name = "second_name", nullable = false)
     String secondName;
+
     @OneToMany(fetch = FetchType.LAZY)
     List<ContactInfo> contactInfoList;
 
