@@ -32,11 +32,16 @@ public class SecurityConfig {
 
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    /*
+    http.authorizeHttpRequests(ao -> ao.requestMatchers("/home", "/registry").permitAll());
+    http.authorizeHttpRequests(ao -> ao.requestMatchers("/error/").permitAll());
+    http.authorizeHttpRequests(ao -> ao.requestMatchers(RegexRequestMatcher.regexMatcher("/resource/[A-Za-z0-9]")).permitAll());
+    http.authorizeHttpRequests(ao -> ao.requestMatchers("/pages/").hasRole("USER").anyRequest().authenticated());
     http.formLogin(s -> s.loginPage("/home").permitAll());
-    http.authorizeHttpRequests(
-        authorizeRequests -> authorizeRequests.requestMatchers("/pages/").hasRole("USER")
-            .requestMatchers("/home", "/registry").permitAll().
-            requestMatchers("/error/").permitAll());
+    http.logout(s -> s.logoutSuccessUrl("/home"));
+     */
+
+    http.authorizeHttpRequests(ao -> ao.anyRequest().permitAll());
     return http.build();
   }
 }
