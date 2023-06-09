@@ -2,9 +2,12 @@ package com.example.notebook.security;
 
 import com.example.notebook.entity.Account;
 import com.example.notebook.repository.AccountRepository;
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -12,6 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
+@EnableWebSecurity
 public class SecurityConfig {
 
   @Bean
@@ -31,17 +35,18 @@ public class SecurityConfig {
   }
 
   @Bean
-  public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-    /*
-    http.authorizeHttpRequests(ao -> ao.requestMatchers("/home", "/registry").permitAll());
-    http.authorizeHttpRequests(ao -> ao.requestMatchers("/error/").permitAll());
-    http.authorizeHttpRequests(ao -> ao.requestMatchers(RegexRequestMatcher.regexMatcher("/resource/[A-Za-z0-9]")).permitAll());
-    http.authorizeHttpRequests(ao -> ao.requestMatchers("/pages/").hasRole("USER").anyRequest().authenticated());
-    http.formLogin(s -> s.loginPage("/home").permitAll());
-    http.logout(s -> s.logoutSuccessUrl("/home"));
-     */
+  public WebSecurityCustomizer webSecurityCustomizer() {
+    return (web) -> web.ignoring()
+        .requestMatchers("/resources/**", "/static/**", "/static/css/**", "/js/**", "/images/**");
+  }
 
-    http.authorizeHttpRequests(ao -> ao.anyRequest().permitAll());
-    return http.build();
+  @Bean
+  public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    return http.authorizeHttpRequests(authorize -> authorize
+            .requestMatchers("/", "/**", "/error/**", "/login").permitAll()
+            .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
+            .requestMatchers("/pages/**").hasRole("USER"))
+        .logout(s -> s.permitAll().logoutSuccessUrl("/home"))
+        .formLogin(s -> s.loginPage("/home").permitAll()).build();
   }
 }
