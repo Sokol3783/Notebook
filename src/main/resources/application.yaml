@@ -6,7 +6,7 @@ spring:
     password: secret
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: update
   sql:
     init:
       mode: never

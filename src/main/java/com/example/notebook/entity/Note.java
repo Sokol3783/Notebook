@@ -40,10 +40,10 @@ public class Note {
     String secondName;
 
     @OneToMany(fetch = FetchType.LAZY)
-    List<ContactInfo> contactInfoList;
+    List<ContactInfo> contactInfo;
 
     @OneToMany(fetch = FetchType.LAZY)
-    List<Notice> tips;
+    List<Notice> notices;
 
     @Override
     public boolean equals(Object o) {

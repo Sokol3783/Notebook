@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.util.Objects;
@@ -26,9 +27,16 @@ public class ContactInfo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "contact_info_id", nullable = false)
     private Long id;
+
+    @Column(name = "contact_info_name", nullable = false)
     private String name;
-    private String type;
+
     @ManyToOne
+    @JoinColumn(name = "contact_info_type_id",  referencedColumnName ="contact_info_type_id", nullable = false)
+    private ContactInfoType type;
+
+    @ManyToOne
+    @JoinColumn(name = "owner_account_id", referencedColumnName = "account_id")
     private Account owner;
 
     @Override

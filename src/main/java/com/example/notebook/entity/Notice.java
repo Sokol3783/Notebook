@@ -23,7 +23,11 @@ public class Notice {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "notice_id", nullable = false)
     private long id;
+
+    @Column(name = "title", length = 30)
     String title;
+
+    @Column(name = "content")
     String content;
 
     @Override

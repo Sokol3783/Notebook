@@ -1,15 +1,20 @@
 package com.example.notebook.entity;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import java.util.Arrays;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
+import java.io.Serial;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
@@ -19,7 +24,6 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import lombok.ToString.Exclude;
 import org.hibernate.Hibernate;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -34,31 +38,40 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Table(name = "account")
 public class Account implements UserDetails {
 
+
+    @Serial
     private static final long serialVersionUID = 3L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "account_id", nullable = false)
     long id;
 
-    @NotBlank(message = "name should not be blank")
+    @Column(name="first_name", length = 50)
     String firstName;
 
-    @NotBlank(message = "first name should not be blank")
+    @Column(name = "last_name", length = 50)
     String lastName;
 
-    @NotBlank(message = "first name should not be blank")
+    @Email(message = "enter valid e-mail")
+    @NotBlank(message = "e-mail should not be blank")
+    @Column(name = "email", unique = true, length = 100)
     String email;
 
+    @Size(message = "Password must to be min  5 max 30 length", min = 5, max = 30)
+    @Column(name = "password", length = 30)
     @NotBlank(message = "password should not be blank")
     String password;
 
     @NotBlank(message = "login should not be blank")
+    @Column(name="login", unique = true)
     String login;
-    @NotBlank(message = "phone should not be blank")
+    @Pattern(message = "Can register only by Ukrainian number!", regexp = "^\\+380\\d{9}$\n") @NotBlank(message = "phone should not be blank")
+    @Column(name="phone", unique = true)
     String phone;
-    @OneToMany(fetch = FetchType.LAZY)
-    @Exclude
-    List<Note> noteEntities;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "owner_account_id", referencedColumnName = "account_id")
+    List<Note> notes;
+
 
     @Override
     public boolean equals(Object o) {
