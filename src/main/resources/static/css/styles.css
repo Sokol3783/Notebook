@@ -2,7 +2,7 @@
   --bs-blue: #0d6efd;
   --bs-indigo: #6610f2;
   --bs-purple: #6f42c1;
-  --bs-pink: #d63384;
+  --bs-pink: rgba(125, 13, 70, 0.97);
   --bs-red: #dc3545;
   --bs-orange: #fd7e14;
   --bs-yellow: #ffc107;
@@ -49,8 +49,8 @@
   --bs-body-font-size: 1rem;
   --bs-body-font-weight: 400;
   --bs-body-line-height: 1.5;
-  --bs-body-color: rgba(227, 189, 158, 0.68);
-  --bs-body-bg: rgba(142, 75, 75, 0.53);
+  --bs-body-color: rgba(189, 105, 43, 0.68);
+  --bs-body-bg: rgba(199, 98, 98, 0.53);
   --bs-border-width: 1px;
   --bs-border-style: solid;
   --bs-border-color: #dee2e6;
@@ -63,7 +63,7 @@
   --bs-border-radius-pill: 50rem;
   --bs-link-color: #0d6efd;
   --bs-link-hover-color: #0a58ca;
-  --bs-code-color: #d63384;
+  --bs-code-color: rgba(207, 194, 34, 0.88);
   --bs-highlight-bg: #fff3cd;
 }
 

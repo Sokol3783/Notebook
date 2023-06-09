@@ -22,8 +22,8 @@
                        style="width: 185px;" alt="logo">
                   <h4 class="mt-1 mb-5 pb-1">We are The Notebook Team</h4>
                 </div>
-
-                <form>
+                <p th:if="${loginError}" class="error">Wrong user or password</p>
+                <form action="post" th:action="@{/home}">
                   <p>Please login to your account</p>
 
                   <div class="form-outline mb-4">
@@ -38,14 +38,14 @@
 
                   <div class="text-center pt-1 mb-5 pb-1">
                     <button class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3"
-                            type="button">Log in
+                            type="submit">Log in
                     </button>
                     <a class="text-muted" href="/restore">Forgot password?</a>
                   </div>
 
                   <div class="d-flex align-items-center justify-content-center pb-4">
                     <p class="mb-0 me-2">Don't have an account?</p>
-                    <button type="button" href="/register" class="btn btn-outline-danger">Create new</button>
+                    <button type="submit" href="/register" class="btn btn-outline-danger">Create new</button>
                   </div>
                 </form>
 
