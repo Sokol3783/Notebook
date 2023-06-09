@@ -6,11 +6,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-@RequestMapping("/home")
 public class HomeController {
 
   AccountDetailsService service;
@@ -19,27 +17,14 @@ public class HomeController {
     this.service = service;
   }
 
-  @GetMapping("/home")
-  public String home() {
-    System.out.println("redirect to home");
-    return "redirect:/home";
-  }
-
-  @RequestMapping(value = "/")
+  @GetMapping(value = "/")
   public String index() {
-    System.out.println("redirect to home");
     return "redirect:/home";
   }
 
-  @GetMapping("/register")
-  public String register() {
-    System.out.println("register request");
-    return "redirect:/register";
-  }
-
-  @GetMapping("/restore")
-  public String forgetPassword(){
-    return "redirect:/error/notfound.html";
+  @GetMapping(value = "/home")
+  public String home() {
+    return "home";
   }
 
   @PostMapping(value = "/home", params = {"login", "pass"})

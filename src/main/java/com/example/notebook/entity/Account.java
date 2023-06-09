@@ -68,7 +68,7 @@ public class Account implements UserDetails {
     @Pattern(message = "Can register only by Ukrainian number!", regexp = "^\\+380\\d{9}$\n") @NotBlank(message = "phone should not be blank")
     @Column(name="phone", unique = true)
     String phone;
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.DETACH, fetch = FetchType.LAZY)
     @JoinColumn(name = "owner_account_id", referencedColumnName = "account_id")
     List<Note> notes;
 
