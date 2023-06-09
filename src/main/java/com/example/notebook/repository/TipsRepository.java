@@ -2,9 +2,8 @@ package com.example.notebook.repository;
 
 
 import com.example.notebook.entity.Notice;
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface TipsRepository extends PagingAndSortingRepository<Notice, Long>, CrudRepository<Notice, Long> {
+public interface TipsRepository extends JpaRepository<Notice, Long> {
 }
 
