@@ -67,6 +67,15 @@
   --bs-highlight-bg: #fff3cd;
 }
 
+li {
+  list-style-type: none;
+}
+
+ul {
+  margin-left: 0;
+  padding-left: 0;
+}
+
 .gradient-custom-2 {
   background: #fccb90;
   background: -webkit-linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593);

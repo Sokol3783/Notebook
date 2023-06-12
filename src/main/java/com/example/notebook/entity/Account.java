@@ -24,6 +24,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.ToString.Exclude;
 import org.hibernate.Hibernate;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -37,7 +38,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Entity
 @Table(name = "account")
 public class Account implements UserDetails {
-
 
     @Serial
     private static final long serialVersionUID = 3L;
@@ -59,17 +59,17 @@ public class Account implements UserDetails {
 
     @Size(message = "Password must to be min  5 max 30 length", min = 5, max = 30)
     @Column(name = "password", length = 30)
-    @NotBlank(message = "password should not be blank")
     String password;
 
     @NotBlank(message = "login should not be blank")
-    @Column(name="login", unique = true)
+    @Column(name = "login", unique = true)
     String login;
-    @Pattern(message = "Can register only by Ukrainian number!", regexp = "^\\+380\\d{9}$\n") @NotBlank(message = "phone should not be blank")
-    @Column(name="phone", unique = true)
+    @Pattern(message = "Can register only by Ukrainian number!", regexp = "^\\+380\\d{9}$\n")
+    @Column(name = "phone", unique = true)
     String phone;
     @OneToMany(cascade = CascadeType.DETACH, fetch = FetchType.LAZY)
     @JoinColumn(name = "owner_account_id", referencedColumnName = "account_id")
+    @Exclude
     List<Note> notes;
 
 
