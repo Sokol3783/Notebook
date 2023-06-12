@@ -37,16 +37,17 @@ public class SecurityConfig {
   @Bean
   public WebSecurityCustomizer webSecurityCustomizer() {
     return (web) -> web.ignoring()
-        .requestMatchers("/resources/**", "/static/**", "/static/css/**", "/js/**", "/images/**");
+        .requestMatchers("/resources/**", "/static/**", "/css/**", "/js/**", "/images/**");
   }
 
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     return http.authorizeHttpRequests(authorize -> authorize
-            .requestMatchers("/", "/**", "/error/**", "/login").permitAll()
+            .requestMatchers("/", "/**", "/error/**").permitAll()
             .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
             .requestMatchers("/pages/**").hasRole("USER"))
         .logout(s -> s.permitAll().logoutSuccessUrl("/home"))
         .formLogin(s -> s.loginPage("/home").permitAll()).build();
+
   }
 }
