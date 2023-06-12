@@ -32,11 +32,15 @@ public class RegisterController {
   //TODO bad smell
   @PostMapping("/register")
   public String creatAccount(@Valid @ModelAttribute("accountDTO") AccountDTO account, Model model,
-      BindingResult bindingResult) {
+      BindingResult result) {
 
     if (account.getAccount().getPassword() == null | account.repeatedPassword == null) {
       model.addAttribute("mismatch", true);
       return "/register";
+    }
+
+    if (result.hasErrors()) {
+      return clearModel(model);
     }
 
     if (account.getAccount().getPassword().compareTo(account.getRepeatedPassword()) == 0) {
@@ -45,6 +49,10 @@ public class RegisterController {
       return "redirect:/home";
     }
 
+    return clearModel(model);
+  }
+
+  private String clearModel(Model model) {
     model.addAttribute("password");
     model.addAttribute("passwordRepeat");
     return "/register";
