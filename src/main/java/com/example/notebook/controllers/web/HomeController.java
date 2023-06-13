@@ -30,10 +30,12 @@ public class HomeController {
   @PostMapping(value = "/home", params = {"login", "pass"})
   public String login(Model model,
       @RequestParam("login") String username,
-      @RequestParam("pass") String password) {
-    //TODO
-    UserDetails userDetails = service.loadUserByUsername(username);
-    return "redirect:/home";
+      @RequestParam("pass") CharSequence password) {
+    UserDetails user = service.authorizeUser(username, password);
+    if (user.isEnabled()) {
+      return "redirect:/pages/notebook/";
+    }
+    model.addAttribute("pass");
+    return model.toString();
   }
-
 }
