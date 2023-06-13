@@ -26,9 +26,11 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.ToString.Exclude;
 import org.hibernate.Hibernate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Getter
 @Setter
@@ -58,19 +60,24 @@ public class Account implements UserDetails {
     String email;
 
     @Size(message = "Password must to be min  5 max 30 length", min = 5, max = 30)
-    @Column(name = "password", length = 30)
+    @Column(name = "password")
     String password;
 
     @NotBlank(message = "login should not be blank")
     @Column(name = "login", unique = true)
     String login;
     @Pattern(message = "Can register only by Ukrainian number!", regexp = "^\\+380\\d{9}$\n")
-    @Column(name = "phone", unique = true)
+    @Column(name = "phone", unique = true, length = 13)
     String phone;
     @OneToMany(cascade = CascadeType.DETACH, fetch = FetchType.LAZY)
     @JoinColumn(name = "owner_account_id", referencedColumnName = "account_id")
     @Exclude
     List<Note> notes;
+
+    public void setPassword(String password, @Autowired PasswordEncoder passwordEncoder) {
+        String hashedPassword = passwordEncoder.encode(password);
+        this.password = hashedPassword;
+    }
 
 
     @Override
