@@ -25,6 +25,7 @@ public class MvcConfig implements WebMvcConfigurer {
     registry.addViewController("/restore").setViewName("/restore");
     registry.addViewController("/forbidden").setViewName("/error/forbidden");
     registry.addViewController("/notfound").setViewName("/error/notfound");
+    registry.addViewController("/pages/notebook").setViewName("/pages/notebook");
   }
 
 
