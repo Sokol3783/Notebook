@@ -1,12 +1,9 @@
 package com.example.notebook.controllers.web;
 
-import com.example.notebook.entity.Account;
+import com.example.notebook.dto.RegisterDTO;
+import com.example.notebook.mapper.RegisterMapper;
 import com.example.notebook.repository.AccountRepository;
 import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -18,38 +15,38 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class RegisterController {
 
   private final AccountRepository accountRepository;
+  private final RegisterMapper mapper;
 
-  public RegisterController(AccountRepository accountRepository) {
+  public RegisterController(AccountRepository accountRepository, RegisterMapper mapper) {
     this.accountRepository = accountRepository;
+    this.mapper = mapper;
   }
 
   @GetMapping("/register")
   public String showRegistrationForm(Model model) {
-    model.addAttribute("accountDTO", new AccountDTO());
+    model.addAttribute("account", new RegisterDTO());
     return "/register";
   }
 
-  //TODO bad smell
   @PostMapping("/register")
-  public String creatAccount(@Valid @ModelAttribute("accountDTO") AccountDTO account, Model model,
+  public String creatAccount(@Valid @ModelAttribute("register") RegisterDTO register, Model model,
       BindingResult result) {
-
-    if (account.getAccount().getPassword() == null | account.repeatedPassword == null) {
-      model.addAttribute("mismatch", true);
-      return "/register";
-    }
 
     if (result.hasErrors()) {
       return clearModel(model);
     }
 
-    if (account.getAccount().getPassword().compareTo(account.getRepeatedPassword()) == 0) {
-      accountRepository.save(account.account);
-      model.addAttribute("successful register", true);
-      return "redirect:/home";
+    if (register.getPassword().compareTo(register.getRepeatedPassword()) == 0) {
+      return saveAccount(model, register);
     }
+    model.addAttribute("mismatch", true);
+    return "/register";
+  }
 
-    return clearModel(model);
+  private String saveAccount(Model model, RegisterDTO register) {
+    accountRepository.save(mapper.mapping(register));
+    model.addAttribute("successful register", true);
+    return "redirect:/home";
   }
 
   private String clearModel(Model model) {
@@ -57,17 +54,4 @@ public class RegisterController {
     model.addAttribute("passwordRepeat");
     return "/register";
   }
-
-
-  @AllArgsConstructor
-  @NoArgsConstructor
-  @Getter
-  @Setter
-  public static class AccountDTO {
-
-    Account account;
-    String repeatedPassword;
-  }
-
-
 }

@@ -20,24 +20,23 @@
             <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">Registration Form</h3>
             <form method="post" role="form"
                   th:action="@{/register}"
-                  th:object="${accountDTO}">
+                  th:object="${register}">
 
               <div class="row">
                 <div class="col-md-12 mb-4">
                   <div class="form-outline">
-                    <input type="text" th:field="*{account.login}" id="login"
+                    <input type="text" th:field="*{login}" id="login"
                            class="form-control form-control-lg"/>
                     <label class="form-label" for="login">Login</label>
                   </div>
                 </div>
               </div>
 
-
               <div class="row">
                 <div class="col-md-6 mb-4">
 
                   <div class="form-outline">
-                    <input type="text" th:field="*{account.firstName}" id="firstName"
+                    <input type="text" th:field="*{firstName}" id="firstName"
                            class="form-control form-control-lg"/>
                     <label class="form-label" for="firstName">First Name</label>
                   </div>
@@ -46,10 +45,10 @@
                 <div class="col-md-6 mb-4">
 
                   <div class="form-outline">
-                    <input type="text" id="lastName" th:field="*{account.lastName}" class="form-control form-control-lg"/>
+                    <input type="text" id="lastName" th:field="*{lastName}" class="form-control form-control-lg"/>
                     <label class="form-label" for="lastName">Last Name</label>
                     <ul>
-                      <li th:each="err : ${#fields.errors('account.lastName')}" th:text="${err}" class="error" />
+                      <li th:each="err : ${#fields.errors('lastName')}" th:text="${err}" class="error" />
                     </ul>
                   </div>
 
@@ -60,10 +59,10 @@
                 <div class="col-md-6 mb-4 pb-2">
 
                   <div class="form-outline">
-                    <input type="email" id="emailAddress" th:field="*{account.email}" class="form-control form-control-lg"/>
+                    <input type="email" id="emailAddress" th:field="*{email}" class="form-control form-control-lg"/>
                     <label class="form-label" for="emailAddress">Email</label>
                     <ul>
-                      <li th:each="err : ${#fields.errors('account.email')}" th:text="${err}" class="error" />
+                      <li th:each="err : ${#fields.errors('email')}" th:text="${err}" class="error" />
                     </ul>
                   </div>
 
@@ -72,10 +71,10 @@
 
                   <div class="form-outline">
                     <input type="tel" id="phoneNumber" class="form-control form-control-lg"/>
-                    <label class="form-label" th:field="*{account.phone}" for="phoneNumber">Phone Number</label>
+                    <label class="form-label" th:field="*{phone}" for="phoneNumber">Phone Number</label>
 
                     <ul>
-                      <li th:each="err : ${#fields.errors('account.phone')}" th:text="${err}" class="error" />
+                      <li th:each="err : ${#fields.errors('phone')}" th:text="${err}" class="error" />
                     </ul>
 
                   </div>
@@ -85,16 +84,16 @@
 
               <div class="row">
                 <p> </p>
-                <div class="col-md-6 mb-4 pb-2">
+                <div class="col-md-6 mb-4 p-2">
                   <!--/*@thymesVar id="mismatch" type="boolean"*/-->
-                  <p th:if="${mismatch}" class="error">Password mismatch</p>
+                  <p th:if="${mismatch}" class="error text-center">Password mismatch</p>
 
                   <div class="form-outline">
-                    <input type="password" id="pass" th:field="*{account.password}" class="form-control form-control-lg"/>
+                    <input type="password" id="pass" th:field="*{password}" class="form-control form-control-lg"/>
                     <label class="form-label" for="pass">Password</label>
 
                     <ul>
-                      <li th:each="err : ${#fields.errors('account.password')}" th:text="${err}" class="error" />
+                      <li th:each="err : ${#fields.errors('password')}" th:text="${err}" class="error" />
                     </ul>
                   </div>
 
