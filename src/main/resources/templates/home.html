@@ -24,17 +24,19 @@
                 </div>                
                 <!--/*@thymesVar id="loginError" type="boolean"*/-->
                 <p th:if="${loginError}" class="error">Wrong user or password</p>
-                <form action="post" th:action="@{/home}">
+                <form action="post" role=form
+                      th:action="@{/home}"
+                      th:object="${loginDTO}">
                   <p>Please login to your account</p>
 
                   <div class="form-outline mb-4">
-                    <input type="text" id="login" class="form-control"/>
+                    <input type="text" id="login" th:field="*{login}" class="form-control"/>
                     <label class="form-label" for="login">Username</label>
                   </div>
 
                   <div class="form-outline mb-4">
-                    <input type="password" id="pass" class="form-control"/>
-                    <label class="form-label" for="pass">Password</label>
+                    <input type="password" id="password" th:field="*{password}" class="form-control"/>
+                    <label class="form-label" for="password">Password</label>
                   </div>
 
                   <div class="text-center pt-1 mb-5 pb-1">
