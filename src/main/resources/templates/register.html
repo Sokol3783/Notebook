@@ -70,11 +70,12 @@
                 <div class="col-md-6 mb-4 pb-2">
 
                   <div class="form-outline">
-                    <input type="tel" id="phoneNumber" class="form-control form-control-lg"/>
-                    <label class="form-label" th:field="*{phone}" for="phoneNumber">Phone Number</label>
+                    <input type="tel" id="phone" th:field="*{phone}" class="form-control form-control-lg"/>
+                    <label class="form-label" for="phone">Phone Number</label>
 
                     <ul>
-                      <li th:each="err : ${#fields.errors('phone')}" th:text="${err}" class="error" />
+                      <li th:each="err : ${#fields.errors('phone')}" th:text="${err}"
+                          class="error"/>
                     </ul>
 
                   </div>
@@ -83,33 +84,39 @@
               </div>
 
               <div class="row">
-                <p> </p>
-                <div class="col-md-6 mb-4 p-2">
-                  <!--/*@thymesVar id="mismatch" type="boolean"*/-->
-                  <p th:if="${mismatch}" class="error text-center">Password mismatch</p>
+                <!--/*@thymesVar id="mismatch" type="boolean"*/-->
+                <p th:if="${mismatch}" class="error text-center">Password mismatch</p>
+              </div>
 
+              <div class="row">
+                <div class="col-md-6 mb-4 pb-2">
                   <div class="form-outline">
-                    <input type="password" id="pass" th:field="*{password}" class="form-control form-control-lg"/>
+                    <input type="password" id="pass" th:field="*{password}"
+                           class="form-control form-control-lg"/>
                     <label class="form-label" for="pass">Password</label>
-
                     <ul>
-                      <li th:each="err : ${#fields.errors('password')}" th:text="${err}" class="error" />
+                      <li th:each="err : ${#fields.errors('password')}" th:text="${err}"
+                          class="error"/>
                     </ul>
                   </div>
-
                 </div>
                 <div class="col-md-6 mb-4 pb-2">
-
                   <div class="form-outline">
-                    <input type="password" th:field="*{repeatedPassword}" id="repeatPass" class="form-control form-control-lg"/>
-                    <label class="form-label" for="repeatPass">Repeat password</label>
+                    <input type="password" th:field="*{repeatedPassword}" id="repeatedPassword"
+                           class="form-control form-control-lg"/>
+                    <label class="form-label" for="repeatedPassword">Repeat password</label>
+                    <ul>
+                      <li th:each="err : ${#fields.errors('repeatedPassword')}" th:text="${err}"
+                          class="error"/>
+                    </ul>
                   </div>
-
                 </div>
               </div>
 
-              <div class="mt-4 pt-2">
-                <input class="btn btn-primary btn-lg" type="submit" value="register"/>
+              <div class="row">
+                <div class="mt-4 pt-2">
+                  <input class="btn btn-primary btn-lg" type="submit" value="register"/>
+                </div>
               </div>
 
             </form>

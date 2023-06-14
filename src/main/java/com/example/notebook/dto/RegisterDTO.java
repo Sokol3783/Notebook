@@ -28,12 +28,12 @@ public class RegisterDTO {
   String email;
 
   @Size(message = "Password must to be min 5 and max 30 length", min = 5, max = 30)
-  String password;
+  char[] password;
 
   @NotBlank(message = "login should not be blank")
   String login;
   @Pattern(message = "Can register only by Ukrainian number!", regexp = "^\\+380\\d{9}$\n")
   String phone;
   @Size(message = "Password must to be min 5 and max 30 length", min = 5, max = 30)
-  String repeatedPassword;
+  char[] repeatedPassword;
 }

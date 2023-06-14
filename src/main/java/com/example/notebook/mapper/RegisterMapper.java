@@ -16,10 +16,11 @@ public class RegisterMapper {
 
   public Account mapping(RegisterDTO register) {
     Account account = new Account();
+    account.setLogin(register.getLogin());
     account.setFirstName(register.getFirstName());
     account.setLastName(register.getLastName());
     account.setEmail(register.getEmail());
-    account.setPassword(register.getPassword(), encoder);
+    account.setPassword(register.getPassword().toString(), encoder);
     account.setPhone(register.getPhone());
     return account;
   }

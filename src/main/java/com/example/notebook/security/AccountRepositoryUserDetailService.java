@@ -2,7 +2,6 @@ package com.example.notebook.security;
 
 import com.example.notebook.entity.Account;
 import com.example.notebook.repository.AccountRepository;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -20,7 +19,7 @@ public class AccountRepositoryUserDetailService implements AccountDetailsService
   }
 
   @Override
-  public UserDetails authorizeUser(String username, CharSequence password)
+  public Account authorizeUser(String username, CharSequence password)
       throws UsernameNotFoundException {
     Account account = accountRepository.findByLogin(username);
     if (account != null) {
