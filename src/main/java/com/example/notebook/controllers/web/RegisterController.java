@@ -31,7 +31,7 @@ public class RegisterController {
   }
 
   @PostMapping("/register")
-  public String creatAccount(@Valid @ModelAttribute("loginDTO") RegisterDTO register, Model model,
+  public String creatAccount(@Valid @ModelAttribute("register") RegisterDTO register, Model model,
       BindingResult result) {
 
     if (result.hasErrors()) {

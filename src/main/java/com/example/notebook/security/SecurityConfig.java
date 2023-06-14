@@ -28,11 +28,15 @@ public class SecurityConfig {
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     return http.authorizeHttpRequests(authorize -> authorize
-            .requestMatchers("/", "/error/**", "/register").permitAll()
-            .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-            .requestMatchers("/pages/**").hasRole("USER"))
+            .requestMatchers("/", "/error/**", "/register", "/home", "/restore", "/login").permitAll()
+            .requestMatchers("/notebook/**").hasRole("USER")
+            .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll())
         .logout(s -> s.permitAll().logoutSuccessUrl("/home"))
-        .formLogin(s -> s.loginPage("/home").permitAll()).build();
-
+        .formLogin(
+            s -> s.loginPage("/home")
+                .loginProcessingUrl("/login")
+                .successForwardUrl("/notebook")
+                .failureForwardUrl("/home")
+                .permitAll()).build();
   }
 }

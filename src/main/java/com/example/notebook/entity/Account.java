@@ -13,7 +13,6 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
 import java.io.Serial;
 import java.util.Collection;
 import java.util.List;
@@ -59,7 +58,6 @@ public class Account implements UserDetails {
     @Column(name = "email", unique = true, length = 100)
     String email;
 
-    @Size(message = "Password must to be min  5 max 30 length", min = 5, max = 30)
     @Column(name = "password")
     String password;
 
