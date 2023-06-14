@@ -28,7 +28,7 @@ public class SecurityConfig {
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     return http.authorizeHttpRequests(authorize -> authorize
-            .requestMatchers("/", "/**", "/error/**").permitAll()
+            .requestMatchers("/", "/error/**", "/register").permitAll()
             .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
             .requestMatchers("/pages/**").hasRole("USER"))
         .logout(s -> s.permitAll().logoutSuccessUrl("/home"))
