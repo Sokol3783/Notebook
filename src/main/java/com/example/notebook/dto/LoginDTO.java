@@ -1,18 +1,15 @@
 package com.example.notebook.dto;
 
-
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
 public class LoginDTO {
 
   String login;
-  char[] password;
+  String password;
 
 }

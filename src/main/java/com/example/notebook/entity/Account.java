@@ -39,7 +39,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Entity
 @Table(name = "account")
 public class Account implements UserDetails {
-
     @Serial
     private static final long serialVersionUID = 3L;
     @Id

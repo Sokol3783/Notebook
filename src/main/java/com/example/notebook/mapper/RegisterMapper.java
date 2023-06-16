@@ -2,6 +2,7 @@ package com.example.notebook.mapper;
 
 import com.example.notebook.dto.RegisterDTO;
 import com.example.notebook.entity.Account;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -10,7 +11,7 @@ public class RegisterMapper {
 
   private final PasswordEncoder encoder;
 
-  public RegisterMapper(PasswordEncoder encoder) {
+  public RegisterMapper(@Autowired PasswordEncoder encoder) {
     this.encoder = encoder;
   }
 
@@ -22,6 +23,7 @@ public class RegisterMapper {
     account.setEmail(register.getEmail());
     account.setPassword(register.getPassword().toString(), encoder);
     account.setPhone(register.getPhone());
+    //account.setRole("ROLE_USER");
     return account;
   }
 }

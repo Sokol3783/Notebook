@@ -28,15 +28,18 @@ public class SecurityConfig {
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     return http.authorizeHttpRequests(authorize -> authorize
-            .requestMatchers("/", "/error/**", "/register", "/home", "/restore", "/login").permitAll()
-            .requestMatchers("/notebook/**").hasRole("USER")
+            .requestMatchers("/", "/e/**", "/a/**").permitAll()
+            .requestMatchers("/u/**").hasRole("USER")
             .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll())
-        .logout(s -> s.permitAll().logoutSuccessUrl("/home"))
-        .formLogin(
-            s -> s.loginPage("/home")
-                .loginProcessingUrl("/login")
-                .successForwardUrl("/notebook")
-                .failureForwardUrl("/home")
-                .permitAll()).build();
+        .csrf(s -> s.disable())
+        .formLogin((form) -> form
+            .loginPage("/a/home")
+            .loginProcessingUrl("/a/home")
+            .defaultSuccessUrl("/u/notebook")
+            .permitAll())
+        .logout( s -> s.invalidateHttpSession(true)
+            .logoutSuccessUrl("/a/home"))
+        .build();
   }
+
 }

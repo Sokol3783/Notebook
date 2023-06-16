@@ -18,10 +18,10 @@ public class CustomErrorController implements ErrorController {
       Integer statusCode = Integer.valueOf(status.toString());
       if (statusCode == HttpStatus.INTERNAL_SERVER_ERROR.value()
           || statusCode == HttpStatus.FORBIDDEN.value()) {
-        return "redirect:/forbidden";
+        return "redirect:/e/forbidden";
       }
     }
-    return "redirect:/notfound";
+    return "redirect:/e/notfound";
   }
 
 }

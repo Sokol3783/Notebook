@@ -27,10 +27,10 @@ public class RegisterController {
   @GetMapping("/register")
   public String showRegistrationForm(Model model) {
     model.addAttribute("register", new RegisterDTO());
-    return "/register";
+    return "/anonymous-pages/register";
   }
 
-  @PostMapping("/register")
+  @PostMapping("/a/register")
   public String creatAccount(@Valid @ModelAttribute("register") RegisterDTO register, Model model,
       BindingResult result) {
 
@@ -40,23 +40,22 @@ public class RegisterController {
     }
 
     if (Arrays.equals(register.getPassword(), register.getRepeatedPassword())) {
-    //if (register.getPassword().compareTo(register.getRepeatedPassword()) == 0) {
       return saveAccount(model, register);
     }
     model.addAttribute("mismatch", true);
-    return "/register";
+    return "/anonymous-pages/register";
   }
 
   private String saveAccount(Model model, RegisterDTO register) {
     Account mapping = mapper.mapping(register);
     accountRepository.save(mapping);
     model.addAttribute("successful register", true);
-    return "/home";
+    return "redirect:/home";
   }
 
   private String clearPasswords(Model model) {
     model.addAttribute("password");
     model.addAttribute("repeatedPassword");
-    return "/register";
+    return "/anonymous-pages/register";
   }
 }

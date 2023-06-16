@@ -5,7 +5,7 @@
   <title>Notebook</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-  <link rel="stylesheet" type="text/css" href="/static/css/styles.css">
+  <link rel="stylesheet" type="text/css" href="/css/styles.css">
 </head>
 <body>
 <section class="gradient-form">
@@ -18,23 +18,24 @@
               <div class="card-body p-md-5 mx-md-4">
 
                 <div class="text-center">
-                  <img src="/static/images/title.png" class="img-responsive"
+                  <img src="/images/title.png" class="img-responsive"
                        style="width: 185px;" alt="logo">
                   <h4 class="mt-1 mb-5 pb-1">We are The Notebook Team</h4>
                 </div>
-                <!--/*@thymesVar id="loginError" type="boolean"*/-->
-                <p th:if="${loginError}" class="error">Wrong user or password</p>
-                <form method="post" th:action="@{/login}">
+
+                <div th:if="${param.error}" class="row"> Wrong user or password </div>
+
+                <form method="post" th:action="@{/a/home}">
                   <p>Please login to your account</p>
 
                   <div class="form-outline mb-4">
-                    <input type="text" id="login" class="form-control"/>
-                    <label class="form-label" for="login">Username</label>
+                    <input type="text" name="username" id="login" class="form-control"/>
+                    <label class="form-label"  for="login">Username</label>
                   </div>
 
                   <div class="form-outline mb-4">
-                    <input type="password" id="pass" class="form-control"/>
-                    <label class="form-label" for="pass">Password</label>
+                    <input type="password"  name="password" id="password" class="form-control"/>
+                    <label class="form-label"  for="password">Password</label>
                   </div>
 
                   <div class="text-center pt-1 mb-5 pb-1">

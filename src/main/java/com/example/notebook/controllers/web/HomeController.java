@@ -1,41 +1,34 @@
 package com.example.notebook.controllers.web;
 
-import com.example.notebook.entity.Account;
-import com.example.notebook.security.AccountDetailsService;
+import com.example.notebook.dto.LoginDTO;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
 @Controller
 public class HomeController {
 
-  AccountDetailsService service;
-
-  public HomeController(AccountDetailsService service) {
-    this.service = service;
-  }
-
   @GetMapping(value = "/")
   public String index() {
-    return "redirect:/home";
+    return "redirect:/a/home";
   }
 
-  @GetMapping(value = "/home")
-  public String home() {
-    return "home";
+  @GetMapping(value = "/a/home")
+  public String home(Model model, @ModelAttribute("loginDTO") LoginDTO login) {
+    model.addAttribute("loginDTO", new LoginDTO());
+    return "/anonymous-pages/home";
   }
 
-  @PostMapping(value = "/login")
-  public String login(Model model,
-      @RequestParam("login") String username,
-      @RequestParam("pass") char[] password) {
-    Account user = service.authorizeUser(username, password.toString());
+  /*
+  @PostMapping(value = "/a/home")
+  public String login(Model model, @ModelAttribute("loginDTO") LoginDTO login) {
+    Account user = service.authorizeUser(login.getLogin(), login.getPassword());
     if (user.isEnabled()) {
-      return "redirect:/notebook/";
+      return "redirect:/u/notebook/";
     }
     model.addAttribute("pass", null);
-    return model.toString();
+    return "redirect:/a/home";
   }
+   */
 }

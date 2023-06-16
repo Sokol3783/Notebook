@@ -18,15 +18,14 @@ public class MvcConfig implements WebMvcConfigurer {
 
   @Override
   public void addViewControllers(ViewControllerRegistry registry) {
-    registry.addViewController("/index").setViewName("/home");
-    registry.addViewController("/").setViewName("/home");
-    registry.addViewController("/home").setViewName("/home");
-    registry.addViewController("/register").setViewName("/register");
-    registry.addViewController("/restore").setViewName("/restore");
-    registry.addViewController("/forbidden").setViewName("/error/forbidden");
-    registry.addViewController("/notfound").setViewName("/error/notfound");
-    registry.addViewController("/notebook").setViewName("/pages/notebook");
-    registry.addViewController("/login");
+    registry.addViewController("/index").setViewName("/anonymous-pages/home");
+    registry.addViewController("/").setViewName("/anonymous-pages/home");
+    registry.addViewController("/a/home").setViewName("/anonymous-pages/home");
+    registry.addViewController("/a/register").setViewName("/anonymous-pages/register");
+    registry.addViewController("/a/restore").setViewName("/anonymous-pages/restore");
+    registry.addViewController("/e/forbidden").setViewName("/error/forbidden");
+    registry.addViewController("/e/notfound").setViewName("/error/notfound");
+    registry.addViewController("/u/notebook").setViewName("/user-pages/notebook");
   }
 
 
