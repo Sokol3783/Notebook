@@ -1,4 +1,4 @@
-package com.example.notebook.controllers.web;
+package com.example.notebook.web.controllers;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.http.HttpServletRequest;

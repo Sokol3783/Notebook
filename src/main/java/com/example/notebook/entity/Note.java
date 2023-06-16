@@ -6,6 +6,8 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.util.List;
@@ -40,10 +42,15 @@ public class Note {
     String secondName;
 
     @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "note_id", nullable = false)
     List<ContactInfo> contactInfo;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany
+    @JoinColumn(name = "note_id", nullable = false)
     List<Notice> notices;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    Account owner;
 
     @Override
     public boolean equals(Object o) {

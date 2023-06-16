@@ -1,4 +1,4 @@
-package com.example.notebook.controllers.web;
+package com.example.notebook.web.controllers;
 
 import com.example.notebook.dto.RegisterDTO;
 import com.example.notebook.entity.Account;

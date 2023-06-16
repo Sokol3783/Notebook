@@ -30,6 +30,10 @@ public class Notice {
     @Column(name = "content")
     String content;
 
+    @ManyToOne
+    @JoinColumn(name = "note_id", insertable = false, updatable = false)
+    Note owner;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
