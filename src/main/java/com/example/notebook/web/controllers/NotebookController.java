@@ -1,68 +1,67 @@
 package com.example.notebook.web.controllers;
 
-import com.example.notebook.repository.AccountRepository;
+import com.example.notebook.dto.NotebookDTO;
+import com.example.notebook.entity.Note;
+import com.example.notebook.repository.NoteRepository;
+import java.util.ArrayList;
 import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
 @Controller
 public class NotebookController {
 
-  private final AccountRepository accountRepository;
+  private final NoteRepository repository;
 
-  public NotebookController(AccountRepository accountRepository) {
-    this.accountRepository = accountRepository;
+  public NotebookController(NoteRepository repository) {
+    this.repository = repository;
   }
 
-  @GetMapping("/tutorials")
-  public String getAll(Model model, @RequestParam(required = false) String keyword,
-      @RequestParam(defaultValue = "1") int page,
-      @RequestParam(defaultValue = "15") int size,
-      @RequestParam(defaultValue = "id,asc") String[] sort) {
-    /*
+  @GetMapping("/u/notebook")
+  public String getNotes(Model model, @ModelAttribute("NotebookDTO") NotebookDTO notebook) {
     try {
-      List<Notice> tutorials = new ArrayList<Notice>();
-
-
-      String sortField = sort[0];
-      String sortDirection = sort[1];
+      List<Note> notes = new ArrayList<>();
+      String sortField = notebook.getSort().get(0);
+      String sortDirection = notebook.getSort().get(1);
 
       Direction direction = sortDirection.equals("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
       Order order = new Order(direction, sortField);
 
-      Pageable pageable = PageRequest.of(page - 1, size, Sort.by(order));
+      Pageable pageable = PageRequest.of(notebook.getPageNumber() - 1, notebook.getPageSize(),
+          Sort.by(order));
 
-      Page<Tutorial> pageTuts;
-      if (keyword == null) {
-        pageTuts = tutorialRepository.findAll(pageable);
+      Page<Note> pageNotes;
+      if (notebook.getKeyword() == null) {
+        pageNotes = repository.findAll(pageable);
       } else {
-        pageTuts = tutorialRepository.findByTitleContainingIgnoreCase(keyword, pageable);
-        model.addAttribute("keyword", keyword);
+        pageNotes = repository.findByFirstNameIgnoreCaseOrLastNameIgnoreCaseOrSecondNameIgnoreCase(
+            notebook.getKeyword(), pageable);
+        model.addAttribute("keyword", notebook.getKeyword());
       }
 
-      tutorials = pageTuts.getContent();
+      notes = pageNotes.getContent();
 
-      model.addAttribute("tutorials", tutorials);
-      model.addAttribute("currentPage", pageTuts.getNumber() + 1);
-      model.addAttribute("totalItems", pageTuts.getTotalElements());
-      model.addAttribute("totalPages", pageTuts.getTotalPages());
-      model.addAttribute("pageSize", size);
+      model.addAttribute("notes", notes);
+      model.addAttribute("currentPage", pageNotes.getNumber() + 1);
+      model.addAttribute("totalItems", pageNotes.getTotalElements());
+      model.addAttribute("totalPages", pageNotes.getTotalPages());
+      model.addAttribute("pageSize", notebook.getPageSize());
       model.addAttribute("sortField", sortField);
       model.addAttribute("sortDirection", sortDirection);
       model.addAttribute("reverseSortDirection", sortDirection.equals("asc") ? "desc" : "asc");
     } catch (Exception e) {
       model.addAttribute("message", e.getMessage());
     }
-       */
 
     return "/user-pages/notebook";
   }
-
-  private static List<Integer> getPageSizes(){
-    return List.of(10, 15, 20);
-  }
-
 
 }
