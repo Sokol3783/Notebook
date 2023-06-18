@@ -28,5 +28,4 @@ public class MvcConfig implements WebMvcConfigurer {
     registry.addViewController("/u/notebook").setViewName("/user-pages/notebook");
   }
 
-
 }

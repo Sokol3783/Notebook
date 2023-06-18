@@ -21,10 +21,11 @@ public class NotebookDTO {
 
   String message;
 
-  List<Integer> pageSizes = List.of(5, 10, 15, 20);
+
   int pageSize = 10;
 
   int pageNumber = 1;
 
+  List<Integer> sizesOfPage = List.of(5, 10, 15, 20);
   List<String> sort = List.of("id", "asc");
 }

@@ -35,15 +35,15 @@ public class ContactInfo {
     private String name;
 
 
-    /* TODO first make default for enum than make crud operations for each user
+    /* TODO first make default for enum than make crud operations with types for each user
     @ManyToOne
     @JoinColumn(name = "contact_info_type_id",  referencedColumnName ="contact_info_type_id", nullable = false)
     private ContactInfoType type;
      */
 
     @ManyToOne
-    @JoinColumn(name = "owner_account_id", referencedColumnName = "account_id")
-    private Account owner;
+    @JoinColumn(name = "owner_note_id", referencedColumnName = "note_id")
+    private Note owner;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "contact_info_type")
