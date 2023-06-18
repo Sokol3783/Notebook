@@ -1,7 +1,10 @@
 package com.example.notebook.entity;
 
+import com.example.notebook.entity.ContactInfoType.ContactInfoTypeDefault;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -31,13 +34,20 @@ public class ContactInfo {
     @Column(name = "contact_info_name", nullable = false)
     private String name;
 
+
+    /* TODO first make default for enum than make crud operations for each user
     @ManyToOne
     @JoinColumn(name = "contact_info_type_id",  referencedColumnName ="contact_info_type_id", nullable = false)
     private ContactInfoType type;
+     */
 
     @ManyToOne
     @JoinColumn(name = "owner_account_id", referencedColumnName = "account_id")
     private Account owner;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "contact_info_type")
+    private ContactInfoTypeDefault type;
 
     @Override
     public boolean equals(Object o) {

@@ -24,8 +24,9 @@ public class NoticeType {
   @JoinColumn(name = "owner_account_id", referencedColumnName = "account_id")
   private Account owner;
 
-  enum DefaultTypeTipsInfo {
+  public enum TypeNoticeDefault {
     POSITION,
+    REMINDER,
     SCHOOL,
     OTHER
   }

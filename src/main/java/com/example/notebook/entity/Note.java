@@ -36,17 +36,17 @@ public class Note {
 
     @Column(name = "first_name", nullable = false)
     String firstName;
-    @Column(name = "last_name", nullable = false)
+    @Column(name = "last_name")
     String lastName;
-    @Column(name = "second_name", nullable = false)
+    @Column(name = "second_name")
     String secondName;
 
     @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "note_id", nullable = false)
+    @JoinColumn(name = "note_id")
     List<ContactInfo> contactInfo;
 
     @OneToMany
-    @JoinColumn(name = "note_id", nullable = false)
+    @JoinColumn(name = "note_id")
     List<Notice> notices;
 
     @ManyToOne(fetch = FetchType.LAZY)

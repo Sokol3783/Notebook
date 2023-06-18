@@ -33,7 +33,8 @@ public class ContactInfoType {
   private Account owner;
 
 
-  enum ContactInfoTypeDefault {
+  public enum ContactInfoTypeDefault {
+    WORK_PHONE("work phone"),
     PHONE("phone"),
     EMAIL("email");
 
