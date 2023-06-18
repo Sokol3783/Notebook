@@ -54,12 +54,13 @@ public class NotebookController {
   }
 
   private Page<Note> getPagesForKeyword(Model model, NotebookDTO notebook, Pageable pageable) {
+    Long id = (Long) httpSession.getAttribute("id");
     if (notebook.getKeyword() == null) {
-      return repository.findAllByOwnerId((Long) httpSession.getAttribute("id"), pageable);
+      return repository.findAllByOwnerId(id, pageable);
     } else {
       model.addAttribute("keyword", notebook.getKeyword());
-      return repository.findByFirstNameIgnoreCaseOrLastNameIgnoreCaseOrSecondNameIgnoreCase(
-          notebook.getKeyword(), pageable);
+      return repository.findByKeyword(
+          notebook.getKeyword(), pageable, id);
     }
   }
 
