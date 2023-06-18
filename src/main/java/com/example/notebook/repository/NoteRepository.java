@@ -28,7 +28,8 @@ public interface NoteRepository extends JpaRepository<Note, Long> {
               OR note.second_name LIKE CONCAT('%', :keyword)
               OR note.last_name LIKE CONCAT('%', :keyword))
 
-          """)
+          """
+  ,nativeQuery = true)
   Page<Note> findByKeyword(String keyword, Pageable pageable, Long id);
 }
 
