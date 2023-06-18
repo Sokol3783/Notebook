@@ -20,15 +20,4 @@ public class HomeController {
     return "/anonymous-pages/home";
   }
 
-  /*
-  @PostMapping(value = "/a/home")
-  public String login(Model model, @ModelAttribute("loginDTO") LoginDTO login) {
-    Account user = service.authorizeUser(login.getLogin(), login.getPassword());
-    if (user.isEnabled()) {
-      return "redirect:/u/notebook/";
-    }
-    model.addAttribute("pass", null);
-    return "redirect:/a/home";
-  }
-   */
 }
