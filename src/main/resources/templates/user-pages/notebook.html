@@ -4,12 +4,132 @@
   <meta charset="UTF-8">
   <title>Notebook</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+        integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
+        crossorigin="anonymous">
   <link rel="stylesheet" type="text/css" href="/static/css/styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+          crossorigin="anonymous"></script>
+  <script src="/static/js/my-scripts.js"></script>
 </head>
-<body th:object="${}">
+<body>
+<h2 class="text-center mt-2">Notebook</h2>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-8">
+      <div class="container-fluid">
+        <form th:action="@{/tutorials}" id="searchForm" class="m-1 p-1 row">
+          <div class="col-md-8">
+            <div class="search row m-0">
+              <div class="col-md-10">
+                <i class="fa fa-search"></i>
+                <input id="keyword" type="search" name="keyword" th:value="${keyword}" required
+                       class="form-control"
+                       placeholder="Enter keyword">
+              </div>
+              <div class="col-md-2">
+                <button type="submit" class="btn btn-secondary">Search</button>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="input-group mb-3 col-md-4">
+              <label class="input-group-text" for="pageSize">Items per page:</label>
+              <select form="searchForm" name="size" th:value="${pageSize}"
+                      onchange="changePageSize()"
+                      class="size-select"
+                      id="pageSize">
+                <option th:each="s : ${pageSizeOptions}" th:value="${s}" th:text="${s}"
+                        th:selected="${s == pageSize}"></option>
+              </select>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="col-md-2">
+      <p> sss</p>
+    </div>
+    <div class="col-md-2">
+      <p> sss</p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <div th:if="${tutorials.size() > 0}">
+        <table class="table table-hover table-responsive-xl">
+          <thead class="thead-light">
+          <tr>
+            <th th:replace="fragments/sorting :: sorting('id','Id')"></th>
+            <th th:replace="fragments/sorting :: sorting('title','Title')"></th>
+            <th th:replace="fragments/sorting :: sorting('description','Description')"></th>
+            <th th:replace="fragments/sorting :: sorting('level','Level')"></th>
+            <th>Published</th>
+            <th>Actions</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr th:each="tutorial : ${tutorials}">
+            <th scope="row">[[${tutorial.id}]]</th>
+            <td>[[${tutorial.title}]]</td>
+            <td>[[${tutorial.description}]]</td>
+            <td>[[${tutorial.level}]]</td>
+            <td>
+              <a th:if="${tutorial.published == true}" class="fa-regular fa-square-check"
+                 th:href="@{'/tutorials/' + ${tutorial.id} + '/published/false'}"
+                 title="Disable this tutorial"></a>
+              <a th:if="${tutorial.published == false}" class="fa-regular fa-square icon-dark"
+                 th:href="@{'/tutorials/' + ${tutorial.id} + '/published/true'}"
+                 title="Enable this tutorial"></a>
+            </td>
+            <td>
+              <a th:href="@{'/notebook/' + ${tutorial.id}}" title="Edit this tutorial"
+                 class="fa-regular fa-pen-to-square icon-dark"></a>
 
+              <a th:href="@{'/tutorials/delete/' + ${tutorial.id}}"
+                 th:tutorialTitle="${tutorial.title}"
+                 id="btnDelete"
+                 title="Delete this tutorial"
+                 class="fa-regular fa-trash-can icon-dark btn-delete"></a>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="" th:unless="${tutorials.size() > 0}">
+        <span>No tutorials found!</span>
+      </div>
+    </div>
+  </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+  <nav aria-label="Pagination" th:if="${totalPages > 0}">
+    <ul class="pagination justify-content-center">
+      <li class="page-item" th:classappend="${currentPage == 1} ? 'disabled'">
+        <a th:replace="fragments/paging :: paging(1, '<<', 'First Page')"></a>
+      </li>
+      <li class="page-item font-weight-bold" th:classappend="${currentPage == 1} ? 'disabled'">
+        <a th:replace="fragments/paging :: paging(${currentPage - 1}, 'Prev', 'Previous Page')"></a>
+      </li>
+      <li class="page-item disabled" th:if="${currentPage - 2 > 1}">
+        <a class="page-link" href="#">...</a>
+      </li>
+      <li class="page-item" th:classappend="${page == currentPage} ? 'active'">
+        <a th:replace="fragments/paging :: paging(${page}, ${page}, 'Page ' + ${page})"></a>
+      </li>
+      <li class="page-item disabled" th:if="${currentPage + 2 < totalPages}">
+        <a class="page-link" href="#">...</a>
+      </li>
+      <li class="page-item font-weight-bold"
+          th:classappend="${currentPage == totalPages} ? 'disabled'">
+        <a th:replace="fragments/paging :: paging(${currentPage + 1},'Next', 'Next Page')"></a>
+      </li>
+      <li class="page-item" th:classappend="${currentPage == totalPages} ? 'disabled'">
+        <a th:replace="fragments/paging :: paging(${totalPages}, '>>', 'Last Page')"></a>
+      </li>
+    </ul>
+  </nav>
+</div>
 </body>
 </html>
