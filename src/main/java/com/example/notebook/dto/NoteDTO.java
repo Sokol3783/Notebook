@@ -7,9 +7,9 @@ import lombok.Setter;
 @Setter
 public class NoteDTO {
 
-  String firstName;
-  String lastName;
-  String secondName;
+  String noteFirstName;
+  String noteLastName;
+  String noteSecondName;
 
   Long ownerId;
 

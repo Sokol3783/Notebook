@@ -19,17 +19,17 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-md-8">
-      <div class="container-fluid">
-        <form th:object="notebook" th:action="@{/notebook}" id="searchForm" class="m-1 p-1 row">
+      <div class="container">
+        <form th:object="${notebook}" th:action="@{/notebook}" id="searchForm" class="m-1 p-1 row">
           <div class="col-md-8">
             <div class="search row m-0">
-              <div class="col-md-10">
+              <div class="col-sm-10">
                 <i class="fa fa-search"></i>
                 <input id="keyword" type="search" name="keyword" th:value="${keyword}" required
                        class="form-control"
                        placeholder="Enter keyword">
               </div>
-              <div class="col-md-2">
+              <div class="col-sm-2">
                 <button type="submit" class="btn btn-secondary">Search</button>
               </div>
             </div>
@@ -57,18 +57,19 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-md-6">
-      <div th:if="${notes.size() > 0}">
-        <table class="table table-hover table-responsive-xl">
-          <thead class="thead-light">
-          <tr>
-            <th class="d-none" th:replace="fragments/sorting :: sorting('id','Id')"></th>
-            <th th:replace="fragments/sorting :: sorting('title','Title')"></th>
-            <th th:replace="fragments/sorting :: sorting('description','Description')"></th>
-            <th th:replace="fragments/sorting :: sorting('level','Level')"></th>
-            <th>Actions</th>
-          </tr>
-          </thead>
+    <div class="col-md-8">
+
+      <table class="table table-hover table-responsive-xl">
+        <thead class="thead-light">
+        <tr>
+          <th th:replace="fragments/sorting :: sorting('id','id')"></th>
+          <th th:replace="fragments/sorting :: sorting('firstName','first name')"></th>
+          <th th:replace="fragments/sorting :: sorting('secondName','second name')"></th>
+          <th th:replace="fragments/sorting :: sorting('lastName','last name')"></th>
+          <th>Actions</th>
+        </tr>
+        </thead>
+        <div th:if="${notes.size() > 0}">
           <tbody>
           <tr th:each="note : ${notes}">
             <th scope="row">[[${note.id}]]</th>
@@ -76,23 +77,49 @@
             <td>[[${note.secondName}]]</td>
             <td>[[${note.LastName}]]</td>
             <td>
+              <a class="create-new-note button alert-success"> Add </a>
+
               <a th:href="@{'/notebook/' + ${note.id}}" title="Edit this tutorial"
                  class="fa-regular fa-pen-to-square icon-dark"></a>
 
-              <a th:href="@{'/tutorials/delete/' + ${note.id}}"
+              <a th:href="@{'/notebook/delete/' + ${note.id}}"
                  th:tutorialTitle="${note.firstName.concat('').concat(note.secondName)
                  .concat('').concat(note.lastName).trim()}"
                  id="btnDelete"
-                 title="Delete this tutorial"
+                 title="Delete this note"
                  class="fa-regular fa-trash-can icon-dark btn-delete"></a>
             </td>
           </tr>
           </tbody>
-        </table>
-      </div>
-      <div class="" th:unless="${notes.size() > 0}">
-        <span class="text-center alert">No notes is find!</span>
-      </div>
+        </div>
+        <div th:unless="${notes.size() > 0}">
+          <tbody>
+          <tr>
+            <th scope="row"></th>
+            <td>Add your</td>
+            <td>first</td>
+            <td>note</td>
+            <td>
+              <div>
+                <button type="button" class="btn btn-success" data-bs-toggle="modal"
+                        data-bs-target="#newNote">
+                  new
+                </button>
+                <button type="button" class="btn btn-warning" data-bs-toggle="modal"
+                        data-bs-target="#edit">
+                  edit
+                </button>
+                <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                        data-bs-target="#delete">
+                  delete
+                </button>
+              </div>
+
+            </td>
+          </tr>
+          </tbody>
+        </div>
+      </table>
     </div>
   </div>
 
@@ -123,5 +150,41 @@
     </ul>
   </nav>
 </div>
+<!-- modal window of new note -->
+<div class="modal fade" id="newNote" data-bs-backdrop="static" data-bs-keyboard="false"
+     tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5 text-center" id="staticBackdropLabel">Add new note</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form method="post" class="needs-validation" th:object="${noteDTO}">
+        <div class="modal-body">
+          <div class="input-group mb-3">
+            <span class="input-group-text">First name</span>
+            <input type="text" class="form-control" th:field="*{noteFirstName}" placeholder="first name"
+                   aria-label="Username" aria-describedby="basic-addon1">
+          </div>
+          <div class="input-group mb-3">
+            <span class="input-group-text">Second name</span>
+            <input type="text" th:field="*{noteSecondName}" class="form-control"
+                   placeholder="second name" aria-label="Username" aria-describedby="basic-addon1">
+          </div>
+          <div class="input-group mb-3">
+            <span class="input-group-text">Last name</span>
+            <input type="text" class="form-control" th:field="*{noteLastName}" placeholder="last name"
+                   aria-label="Username" aria-describedby="basic-addon1">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-success" value="/u/notebook/note/" id="create_new">Create</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!---------------------------------------------------------------------------------------------------->
 </body>
 </html>

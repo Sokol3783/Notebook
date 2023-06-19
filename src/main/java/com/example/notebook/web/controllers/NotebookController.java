@@ -3,6 +3,7 @@ package com.example.notebook.web.controllers;
 import com.example.notebook.dto.NoteDTO;
 import com.example.notebook.dto.NotebookDTO;
 import com.example.notebook.entity.Note;
+import com.example.notebook.mapper.NoteMapper;
 import com.example.notebook.repository.NoteRepository;
 import jakarta.servlet.http.HttpSession;
 import java.util.List;
@@ -23,14 +24,17 @@ public class NotebookController {
 
   private final NoteRepository repository;
   private final HttpSession httpSession;
+  private final NoteMapper mapper;
 
-  public NotebookController(NoteRepository repository, HttpSession httpSession) {
+  public NotebookController(NoteRepository repository, HttpSession httpSession, NoteMapper mapper) {
     this.repository = repository;
     this.httpSession = httpSession;
+    this.mapper = mapper;
   }
 
   @GetMapping("/u/notebook")
-  public String getNotes(Model model, @ModelAttribute("NotebookDTO") NotebookDTO notebook) {
+  public String getNotes(Model model, @ModelAttribute("notebook") NotebookDTO notebook,
+      @ModelAttribute("noteDTO") NoteDTO note) {
     try {
       Order order = buildNotebookOrder(model, notebook);
 
@@ -65,8 +69,8 @@ public class NotebookController {
   }
 
   private Order buildNotebookOrder(Model model, NotebookDTO notebook) {
-    String sortField = notebook.getSort().get(0);
-    String sortDirection = notebook.getSort().get(1);
+    String sortField = notebook.getSortField();
+    String sortDirection = notebook.getSortDirection();
 
     model.addAttribute("sortField", sortField);
     model.addAttribute("sortDirection", sortDirection);
@@ -76,8 +80,16 @@ public class NotebookController {
     return new Order(direction, sortField);
   }
 
-  @PostMapping("/u/notebook")
-  public String addNote(Model model, @ModelAttribute("NoteDTO") NoteDTO noteTDO) {
+
+  @PostMapping("/u/notebook/note/")
+  public String addNote(Model model, @ModelAttribute("noteDTO") NoteDTO noteDTO,
+      @ModelAttribute("notebook") NotebookDTO notebook) {
+    noteDTO.setOwnerId((Long) httpSession.getAttribute("id"));
+    Note note = repository.save(mapper.mapToObject(noteDTO));
+    if (note == null && note.getId() != 0) {
+      model.addAttribute("message", "Note was not saved");
+      return "/user-pages/notebook";
+    }
     return "redirect:/user-pages/notebook";
   }
 

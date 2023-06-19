@@ -27,5 +27,6 @@ public class NotebookDTO {
   int pageNumber = 1;
 
   List<Integer> sizesOfPage = List.of(5, 10, 15, 20);
-  List<String> sort = List.of("id", "asc");
+  String sortField = "id";
+  String sortDirection = "asc";
 }

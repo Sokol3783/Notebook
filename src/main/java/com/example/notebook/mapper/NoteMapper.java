@@ -22,9 +22,9 @@ public class NoteMapper {
   public Note mapToObject(NoteDTO note) {
     NoteBuilder builder = new Note().toBuilder();
     builder.owner(getOwner(note));
-    builder.firstName(note.getFirstName());
-    builder.lastName(note.getLastName());
-    builder.secondName(note.getSecondName());
+    builder.firstName(note.getNoteFirstName());
+    builder.lastName(note.getNoteLastName());
+    builder.secondName(note.getNoteLastName());
     return builder.build();
   }
 

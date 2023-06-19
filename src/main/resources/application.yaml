@@ -10,3 +10,10 @@ spring:
   sql:
     init:
       mode: never
+server:
+  servlet:
+    session:
+      timeout: 1800 # Session timeout in seconds (e.g., 1800 seconds = 30 minutes)
+      cookie:
+        secure: true # Enable secure cookies (HTTPS only)
+        http-only: true # Enable HttpOnly flag for cookies
