@@ -36,29 +36,41 @@ public class NotebookController {
   @GetMapping("/u/notebook")
   public String getNotes(Model model, @ModelAttribute("notebook") NotebookDTO notebook,
       @ModelAttribute("noteDTO") NoteDTO note) {
-    try {
-      List<Note> notes = List.copyOf(refreshContent(notebook, buildNotebookOrder(model, notebook), model));
+    if (notebook.getPage().getCurrentPage() != notebook.getPage().getNewPage()) {
+      try {
+        fillPageFields(model, notebook);
 
-      model.addAttribute("notes", notes);
-      model.addAttribute("currentPage", notebook.getPage().getCurrentPage() + 1);
-      model.addAttribute("totalPages", notebook.getPage().getTotal());
-      model.addAttribute("pageSize", notebook.getPage().getPageSize());
-      model.addAttribute("sizesOfPage", notebook.getPage().getSizesOfPage());
+        List<Note> notes = List.copyOf(
+            refreshPageContent(notebook, buildNotebookOrder(model, notebook), model));
+        model.addAttribute("notes", notes);
 
-    } catch (Exception e) {
-      model.addAttribute("message", e.getMessage());
+
+      } catch (Exception e) {
+        model.addAttribute("message", e.getMessage());
+      }
     }
+
     return "/user-pages/notebook";
   }
 
-  private List<Note> refreshContent(NotebookDTO notebook, Order order,
+  private void fillPageFields(Model model, NotebookDTO notebook) {
+    notebook.getPage().setCurrentPage(notebook.getPage().getNewPage());
+    model.addAttribute("currentPage", notebook.getPage().getCurrentPage());
+    model.addAttribute("pageSize", notebook.getPage().getPageSize());
+    model.addAttribute("previousPage", notebook.getPage().getPreviousPage());
+    model.addAttribute("nextPage", notebook.getPage().getNextPage());
+    model.addAttribute("page", notebook.getPage());
+  }
+
+  private List<Note> refreshPageContent(NotebookDTO notebook, Order order,
       Model model) {
-    Pageable pageable = PageRequest.of(notebook.getPage().getCurrentPage()
-            - 1, notebook.getPage().getPageSize(),
+    Pageable pageable = PageRequest.of(notebook.getPage().getCurrentPage()-1, notebook.getPage().getPageSize(),
         Sort.by(order));
 
     Page<Note> pageNotes = getPagesForKeyword(model, notebook, pageable);
-    notebook.getPage().setTotal(pageNotes.getTotalPages());
+    notebook.getPage().setTotal(pageNotes.getTotalPages() / pageable.getPageSize()
+      + pageNotes.getTotalPages() % pageable.getPageSize());
+    model.addAttribute("totalPages", notebook.getPage().getTotal());
     return pageNotes.getContent();
   }
 
@@ -86,7 +98,7 @@ public class NotebookController {
   }
 
 
-  @PostMapping("/u/notebook/note/")
+  @PostMapping("/u/notebook/note/create")
   public String addNote(Model model, @ModelAttribute("noteDTO") NoteDTO noteDTO,
       @ModelAttribute("notebook") NotebookDTO notebook) {
     noteDTO.setOwnerId((Long) httpSession.getAttribute("id"));
@@ -103,7 +115,7 @@ public class NotebookController {
   @PostMapping("/u/notebook/note/update")
   public String update(Model model, @ModelAttribute("noteDTO") NoteDTO noteDTO,
       @ModelAttribute("notebook") NotebookDTO notebook) {
-    Optional<Note> byId = repository.findById(noteDTO.getNoteId());
+    Optional<Note> byId = repository.findById(Long.parseLong(noteDTO.getNoteId()));
     if (byId.isPresent()) {
       try {
         updateNames(noteDTO, byId.get());
@@ -121,7 +133,7 @@ public class NotebookController {
   public String delete(Model model, @ModelAttribute("noteDTO") NoteDTO noteDTO,
       @ModelAttribute("notebook") NotebookDTO notebook) {
     try {
-      repository.deleteById(noteDTO.getNoteId());
+      repository.deleteById(Long.parseLong(noteDTO.getNoteId()));
       return "redirect:/u/notebook";
     } catch (Exception e) {
       notebook.setMessage("Update failed");

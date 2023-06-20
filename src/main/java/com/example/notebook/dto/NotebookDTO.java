@@ -32,12 +32,21 @@ public class NotebookDTO {
 
     private int pageSize = 10;
 
-    private int currentPage = 1;
+    private int currentPage;
+    private int newPage = 1;
+    private int nextPage;
+    private int previousPage;
     private int total;
 
     private List<Integer> sizesOfPage = List.of(5, 10, 15, 20);
     private String sortField = "id";
     private String sortDirection = "asc";
+
+    public void setCurrentPage(int currentPage) {
+      this.currentPage = currentPage;
+      this.nextPage = ++this.currentPage;
+      this.previousPage = --this.currentPage;
+    }
 
   }
 

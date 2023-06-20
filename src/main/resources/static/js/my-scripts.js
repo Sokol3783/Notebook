@@ -64,9 +64,21 @@ main.addEventListener('show.bs.modal', event => {
     fillNoteFields(note, button.parentNode.parentNode.parentNode);
   } else {
     submit.classList.add('btn-success')
-    note.action = "/u/notebook/note/";
+    note.action = "/u/notebook/note/create";
     setEmptyNote(note);
   }
   submit.textContent = command;
   modalTitle.textContent = command;
 })
+
+const pagination = document.getElementById('pagination')
+
+pagination.addEventListener('click', event => {
+      const element = event.target;
+      const value = element.innerText;
+
+      const submit = document.getElementById("newPage")
+      submit.innerText = value
+      submit.value = value
+    }
+)

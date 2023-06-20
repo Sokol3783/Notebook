@@ -25,7 +25,10 @@ public class NoteMapper {
     builder.firstName(note.getNoteFirstName());
     builder.lastName(note.getNoteLastName());
     builder.secondName(note.getNoteSecondName());
-    builder.id(note.getNoteId());
+    if(note.getNoteId().length() > 0){
+      builder.id(Long.parseLong(note.getNoteId()));
+    }
+
     return builder.build();
   }
 
