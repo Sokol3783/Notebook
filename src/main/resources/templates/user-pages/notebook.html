@@ -12,11 +12,11 @@
 </head>
 <body>
 <h2 class="text-center mt-2">Notebook</h2>
-<div class="container-fluid">
+<div th:object="${notebook}" class="container-fluid">
   <div class="row">
     <div class="col-md-8">
       <div class="container">
-        <form th:object="${notebook}" th:action="@{/notebook}" id="searchForm" class="m-1 p-1 row">
+        <form th:action="@{/notebook}" id="searchForm" class="m-1 p-1 row">
           <div class="col-md-8">
             <div class="search row m-0">
               <div class="col-sm-10">
@@ -54,7 +54,6 @@
   </div>
   <div class="row">
     <div class="col-md-8">
-
       <table class="table table-hover table-responsive-xl" id="contacts">
         <thead class="thead-light">
         <tr>
@@ -109,35 +108,32 @@
           </tbody>
         </div>
       </table>
-    </div>
-  </div>
 
-  <nav aria-label="Pagination" th:if="${totalPages > 0}">
-    <ul class="pagination justify-content-center">
-      <li class="page-item" th:classappend="${currentPage == 1} ? 'disabled'">
-        <a th:replace="fragments/paging :: paging(1, '<<', 'First Page')"></a>
-      </li>
-      <li class="page-item font-weight-bold" th:classappend="${currentPage == 1} ? 'disabled'">
-        <a th:replace="fragments/paging :: paging(${currentPage - 1}, 'Prev', 'Previous Page')"></a>
-      </li>
-      <li class="page-item disabled" th:if="${currentPage - 2 > 1}">
-        <a class="page-link" href="#">...</a>
-      </li>
-      <li class="page-item" th:classappend="${page == currentPage} ? 'active'">
-        <a th:replace="fragments/paging :: paging(${page}, ${page}, 'Page ' + ${page})"></a>
-      </li>
-      <li class="page-item disabled" th:if="${currentPage + 2 < totalPages}">
-        <a class="page-link" href="#">...</a>
-      </li>
-      <li class="page-item font-weight-bold"
-          th:classappend="${currentPage == totalPages} ? 'disabled'">
-        <a th:replace="fragments/paging :: paging(${currentPage + 1},'Next', 'Next Page')"></a>
-      </li>
-      <li class="page-item" th:classappend="${currentPage == totalPages} ? 'disabled'">
-        <a th:replace="fragments/paging :: paging(${totalPages}, '>>', 'Last Page')"></a>
-      </li>
-    </ul>
-  </nav>
+      <!--
+    <div th:if="${bookPage.totalPages > 0}" class="pagination"
+         th:each="pageNumber : ${pageNumbers}">
+      <a th:href="@{/listBooks(size=${bookPage.size}, page=${pageNumber})}"
+         th:text=${pageNumber}
+         th:class="${pageNumber==bookPage.number + 1} ? active"></a>
+         -->
+      <div th:if="${totalPages> 0}">
+        <nav aria-label="Page navigation">
+          <ul class="pagination justify-content-center">
+            <li class="page-item disabled">
+              <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+            </li>
+            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item">
+              <a class="page-link" href="#">Next</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+    </div>
+
 </div>
 <div class="modal fade" id="modal-note" tabindex="-1" aria-labelledby="title" aria-hidden="true">
   <div class="modal-dialog">
@@ -146,15 +142,15 @@
         <h1 class="modal-title fs-5" id="title">New message</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <form th:method="post"   class="needs-validation" id="note-form" th:object="${noteDTO}">
-        <div>
-          <input type="text" th:field="*{noteId}" id="noteId" class="form-control"
-                 placeholder="second name" aria-label="Username" aria-describedby="basic-addon1">
+      <form th:method="post" class="needs-validation" id="note-form" th:object="${noteDTO}">
+        <div class="d-none">
+          <input type="text" th:field="*{noteId}" id="noteId" class="form-control">
         </div>
         <div class="modal-body">
           <div class="input-group mb-3">
             <span class="input-group-text">First name</span>
-            <input type="text" class="form-control" th:field="*{noteFirstName}" id="noteFirstName" placeholder="first name"
+            <input type="text" class="form-control" th:field="*{noteFirstName}" id="noteFirstName"
+                   placeholder="first name"
                    aria-label="Username" aria-describedby="basic-addon1">
           </div>
           <div class="input-group mb-3">

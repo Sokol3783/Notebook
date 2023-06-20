@@ -16,7 +16,6 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -38,25 +37,29 @@ public class NotebookController {
   public String getNotes(Model model, @ModelAttribute("notebook") NotebookDTO notebook,
       @ModelAttribute("noteDTO") NoteDTO note) {
     try {
-      Order order = buildNotebookOrder(model, notebook);
-
-      Pageable pageable = PageRequest.of(notebook.getPageNumber() - 1, notebook.getPageSize(),
-          Sort.by(order));
-
-      Page<Note> pageNotes = getPagesForKeyword(model, notebook, pageable);
-      List<Note> notes = pageNotes.getContent();
+      List<Note> notes = List.copyOf(refreshContent(notebook, buildNotebookOrder(model, notebook), model));
 
       model.addAttribute("notes", notes);
-      model.addAttribute("currentPage", pageNotes.getNumber() + 1);
-      model.addAttribute("totalItems", pageNotes.getTotalElements());
-      model.addAttribute("totalPages", pageNotes.getTotalPages());
-      model.addAttribute("pageSize", notebook.getPageSize());
-      model.addAttribute("sizesOfPage", notebook.getSizesOfPage());
+      model.addAttribute("currentPage", notebook.getPage().getCurrentPage() + 1);
+      model.addAttribute("totalPages", notebook.getPage().getTotal());
+      model.addAttribute("pageSize", notebook.getPage().getPageSize());
+      model.addAttribute("sizesOfPage", notebook.getPage().getSizesOfPage());
 
     } catch (Exception e) {
       model.addAttribute("message", e.getMessage());
     }
     return "/user-pages/notebook";
+  }
+
+  private List<Note> refreshContent(NotebookDTO notebook, Order order,
+      Model model) {
+    Pageable pageable = PageRequest.of(notebook.getPage().getCurrentPage()
+            - 1, notebook.getPage().getPageSize(),
+        Sort.by(order));
+
+    Page<Note> pageNotes = getPagesForKeyword(model, notebook, pageable);
+    notebook.getPage().setTotal(pageNotes.getTotalPages());
+    return pageNotes.getContent();
   }
 
   private Page<Note> getPagesForKeyword(Model model, NotebookDTO notebook, Pageable pageable) {
@@ -71,8 +74,8 @@ public class NotebookController {
   }
 
   private Order buildNotebookOrder(Model model, NotebookDTO notebook) {
-    String sortField = notebook.getSortField();
-    String sortDirection = notebook.getSortDirection();
+    String sortField = notebook.getPage().getSortField();
+    String sortDirection = notebook.getPage().getSortDirection();
 
     model.addAttribute("sortField", sortField);
     model.addAttribute("sortDirection", sortDirection);
@@ -96,6 +99,7 @@ public class NotebookController {
     return "redirect:/u/notebook";
   }
 
+
   @PostMapping("/u/notebook/note/update")
   public String update(Model model, @ModelAttribute("noteDTO") NoteDTO noteDTO,
       @ModelAttribute("notebook") NotebookDTO notebook) {
@@ -113,7 +117,7 @@ public class NotebookController {
     return "/user-pages/notebook";
   }
 
-  @DeleteMapping("/u/notebook/note/delete")
+  @PostMapping("/u/notebook/note/delete")
   public String delete(Model model, @ModelAttribute("noteDTO") NoteDTO noteDTO,
       @ModelAttribute("notebook") NotebookDTO notebook) {
     try {

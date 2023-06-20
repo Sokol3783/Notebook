@@ -10,29 +10,58 @@ main.addEventListener('show.bs.modal', event => {
   const modalTitle = main.querySelector('.modal-title')
 
   const submit = document.getElementById("submit-button")
-  const note = document.getElementById("note-form");
+  const note = document.getElementById("note-form")
 
-  function setEmptyNote(note) {
-    note.getElementById('noteFirstName').value = "";
-    note.getElementById('noteSecondName').value = "";
-    note.getElementById('noteLastName').value = "";
-    note.getElementById('noteId').value = "";
+  function getFirstNameField() {
+    return document.getElementById(`noteFirstName`);
   }
 
-  function fillNoteFields(note, button) {
+  function getSecondNameField() {
+    return document.getElementById(`noteSecondName`);
+  }
+
+  function getLastNameField() {
+    return document.getElementById(`noteLastName`);
+  }
+
+  function getIdField() {
+    return document.getElementById(`noteId`);
+  }
+
+
+  function setEmptyNote() {
+    let field = getFirstNameField()
+    field.value = ""
+    let field2 = getSecondNameField()
+    field2.value = ""
+    let field3 = getLastNameField()
+    field3.value = ""
+    let field4 = getIdField()
+    field4.value = ""
+  }
+
+  function fillNoteFields(note, row) {
     console.log("all right we are here")
 
+    let field = getFirstNameField()
+    field.value = row.cells[1].innerText
+    let field2 = getSecondNameField()
+    field2.value = row.cells[2].innerText
+    let field3 = getLastNameField()
+    field3.value = row.cells[3].innerText
+    let field4 = getIdField()
+    field4.value = row.cells[0].innerText
 
   }
 
   if (command === 'edit') {
     submit.classList.add('btn-warning')
     note.action = "/u/notebook/note/update";
-    fillNoteFields(note);
+    fillNoteFields(note, button.parentNode.parentNode.parentNode);
   } else if (command == 'delete') {
     submit.classList.add('btn-danger')
     note.action = "/u/notebook/note/delete";
-    fillNoteFields(note);
+    fillNoteFields(note, button.parentNode.parentNode.parentNode);
   } else {
     submit.classList.add('btn-success')
     note.action = "/u/notebook/note/";

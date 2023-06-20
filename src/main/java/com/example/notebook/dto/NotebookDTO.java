@@ -11,6 +11,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class NotebookDTO {
+
   Long owner_id;
   List<Note> notes;
   String firstName;
@@ -21,12 +22,23 @@ public class NotebookDTO {
 
   String message;
 
+  PaginationProperties page = new PaginationProperties();
 
-  int pageSize = 10;
 
-  int pageNumber = 1;
+  @Getter
+  @Setter
+  @NoArgsConstructor
+  public static class PaginationProperties {
 
-  List<Integer> sizesOfPage = List.of(5, 10, 15, 20);
-  String sortField = "id";
-  String sortDirection = "asc";
+    private int pageSize = 10;
+
+    private int currentPage = 1;
+    private int total;
+
+    private List<Integer> sizesOfPage = List.of(5, 10, 15, 20);
+    private String sortField = "id";
+    private String sortDirection = "asc";
+
+  }
+
 }
