@@ -24,7 +24,7 @@ public class RegisterController {
     this.mapper = mapper;
   }
 
-  @GetMapping("/register")
+  @GetMapping("/a/register")
   public String showRegistrationForm(Model model) {
     model.addAttribute("register", new RegisterDTO());
     return "/anonymous-pages/register";
@@ -35,7 +35,6 @@ public class RegisterController {
       BindingResult result) {
 
     if (result.hasErrors()) {
-      System.out.println("This was error " + result);
       return clearPasswords(model);
     }
 
@@ -50,7 +49,7 @@ public class RegisterController {
     Account mapping = mapper.mapping(register);
     accountRepository.save(mapping);
     model.addAttribute("successful register", true);
-    return "redirect:/home";
+    return "redirect:/a/home";
   }
 
   private String clearPasswords(Model model) {

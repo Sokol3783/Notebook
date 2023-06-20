@@ -23,7 +23,6 @@ public class RegisterMapper {
     account.setEmail(register.getEmail());
     account.setPassword(register.getPassword().toString(), encoder);
     account.setPhone(register.getPhone());
-    //account.setRole("ROLE_USER");
     return account;
   }
 }

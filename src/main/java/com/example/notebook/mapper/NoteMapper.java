@@ -24,13 +24,14 @@ public class NoteMapper {
     builder.owner(getOwner(note));
     builder.firstName(note.getNoteFirstName());
     builder.lastName(note.getNoteLastName());
-    builder.secondName(note.getNoteLastName());
+    builder.secondName(note.getNoteSecondName());
+    builder.id(note.getNoteId());
     return builder.build();
   }
 
   private Account getOwner(NoteDTO note) {
     Optional<Account> byId = repository.findById(note.getOwnerId());
-    if (!byId.isPresent()) {
+    if (byId.isEmpty()) {
       throw new UsernameNotFoundException("User with id " + note.getOwnerId() + " not found");
     }
     return byId.get();

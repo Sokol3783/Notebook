@@ -31,5 +31,7 @@ public interface NoteRepository extends JpaRepository<Note, Long> {
           """
   ,nativeQuery = true)
   Page<Note> findByKeyword(String keyword, Pageable pageable, Long id);
+
+  long findTopByOrderByIdDesc();
 }
 

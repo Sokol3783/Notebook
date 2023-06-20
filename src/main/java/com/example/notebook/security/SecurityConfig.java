@@ -36,16 +36,17 @@ public class SecurityConfig {
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     return http.authorizeHttpRequests(authorize -> authorize
-            .requestMatchers("/", "/e/**", "/a/**").permitAll()
+            .requestMatchers("/", "/error/**", "/anonymous-pages/**", "/a/**").permitAll()
             .requestMatchers("/u/**", "/u/notebook/**").hasRole("USER")
             .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll())
         .csrf(s -> s.disable())
         .formLogin((form) -> form
             .loginPage("/a/home")
             .loginProcessingUrl("/a/home")
-            .successHandler(authenticationSuccessHandler)
             .defaultSuccessUrl("/u/notebook")
-            .permitAll())
+            .permitAll()
+            .successHandler(authenticationSuccessHandler)
+        )
         .logout(s -> s.invalidateHttpSession(true)
             .logoutSuccessUrl("/a/home"))
         .build();

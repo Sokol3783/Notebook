@@ -7,6 +7,7 @@ import com.example.notebook.mapper.NoteMapper;
 import com.example.notebook.repository.NoteRepository;
 import jakarta.servlet.http.HttpSession;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -15,6 +16,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -86,11 +88,48 @@ public class NotebookController {
       @ModelAttribute("notebook") NotebookDTO notebook) {
     noteDTO.setOwnerId((Long) httpSession.getAttribute("id"));
     Note note = repository.save(mapper.mapToObject(noteDTO));
+    model.addAttribute("notebook", notebook);
     if (note == null && note.getId() != 0) {
-      model.addAttribute("message", "Note was not saved");
+      notebook.setMessage("Note was not saved");
       return "/user-pages/notebook";
     }
-    return "redirect:/user-pages/notebook";
+    return "redirect:/u/notebook";
+  }
+
+  @PostMapping("/u/notebook/note/update")
+  public String update(Model model, @ModelAttribute("noteDTO") NoteDTO noteDTO,
+      @ModelAttribute("notebook") NotebookDTO notebook) {
+    Optional<Note> byId = repository.findById(noteDTO.getNoteId());
+    if (byId.isPresent()) {
+      try {
+        updateNames(noteDTO, byId.get());
+        return "redirect:/u/notebook";
+      } catch (Exception e) {
+        notebook.setMessage(e.getMessage());
+        return "/user-pages/notebook";
+      }
+    }
+    notebook.setMessage("Update failed");
+    return "/user-pages/notebook";
+  }
+
+  @DeleteMapping("/u/notebook/note/delete")
+  public String delete(Model model, @ModelAttribute("noteDTO") NoteDTO noteDTO,
+      @ModelAttribute("notebook") NotebookDTO notebook) {
+    try {
+      repository.deleteById(noteDTO.getNoteId());
+      return "redirect:/u/notebook";
+    } catch (Exception e) {
+      notebook.setMessage("Update failed");
+    }
+    return "/user-pages/notebook";
+  }
+
+  private void updateNames(NoteDTO noteDTO, Note note) {
+    note.setFirstName(noteDTO.getNoteFirstName());
+    note.setLastName(noteDTO.getNoteLastName());
+    note.setSecondName((noteDTO.getNoteSecondName()));
+    repository.saveAndFlush(note);
   }
 
 }
