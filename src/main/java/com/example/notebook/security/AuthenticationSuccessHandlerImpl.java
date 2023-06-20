@@ -46,6 +46,7 @@ public class AuthenticationSuccessHandlerImpl implements AuthenticationSuccessHa
     logger.info(principal.getLogin() + " is successful login!");
     session.setAttribute("id", principal.getId());
     logger.info("Id is - " + session.getAttribute("id"));
-  }
 
+    response.sendRedirect("/u/notebook");
+  }
 }
