@@ -31,7 +31,7 @@ import org.hibernate.Hibernate;
 public class Notice {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "notice_id", nullable = false)
+    @Column(name = "notice_id")
     private long id;
 
     @Column(name = "title", length = 30)

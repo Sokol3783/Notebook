@@ -28,7 +28,7 @@ import org.hibernate.Hibernate;
 public class ContactInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "contact_info_id", nullable = false)
+    @Column(name = "contact_info_id")
     private Long id;
 
     @Column(name = "contact_info_name", nullable = false)
