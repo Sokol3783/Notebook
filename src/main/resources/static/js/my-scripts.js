@@ -76,9 +76,12 @@ const pagination = document.getElementById('pagination')
 pagination.addEventListener('click', event => {
       const element = event.target;
       const value = element.innerText;
-
-      const submit = document.getElementById("newPage")
+      let submit = document.getElementById("newPage")
       submit.innerText = value
       submit.value = value
+
+      const form = document.getElementById("form-submit")
+      form.action = "/u/notebook"
+      form.submit();
     }
 )

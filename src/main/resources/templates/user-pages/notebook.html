@@ -12,130 +12,130 @@
 </head>
 <body>
 <h2 class="text-center mt-2">Notebook</h2>
-<div th:object="${notebook}" class="container-fluid">
-  <div class="row">
-    <div class="col-md-8">
-      <div class="container">
-        <form th:action="@{/notebook}" id="searchForm" class="m-1 p-1 row">
-          <div class="col-md-8">
-            <div class="search row m-0">
-              <div class="col-sm-10">
-                <i class="fa fa-search"></i>
-                <input id="keyword" type="search" name="keyword" th:value="${keyword}" required
-                       class="form-control"
-                       placeholder="Enter keyword">
-              </div>
-              <div class="col-sm-2">
-                <button type="submit" class="btn btn-secondary">Search</button>
+<form th:object="${notebook}" method="post" id="form-submit">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-8">
+        <div class="container">
+          <form th:action="@{/notebook}" id="searchForm" class="m-1 p-1 row">
+            <div class="col-md-8">
+              <div class="search row m-0">
+                <div class="col-sm-10">
+                  <i class="fa fa-search"></i>
+                  <input id="keyword" type="search" name="keyword" th:value="${keyword}" required
+                         class="form-control"
+                         placeholder="Enter keyword">
+                </div>
+                <div class="col-sm-2">
+                  <button type="submit" class="btn btn-secondary">Search</button>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="col-md-4">
-            <div class="input-group mb-3 col-md-4">
-              <label class="input-group-text" for="pageSize">Items per page:</label>
-              <select form="searchForm" name="size" th:value="${pageSize}"
-                      onchange="changePageSize()"
-                      class="size-select"
-                      id="pageSize">
-                <option th:each="s : ${sizesOfPage}" th:value="${s}" th:text="${s}"
-                        th:selected="${s == pageSize}"></option>
-              </select>
+            <div class="col-md-4">
+              <div class="input-group mb-3 col-md-4">
+                <label class="input-group-text" for="pageSize">Items per page:</label>
+                <select form="searchForm" name="size" th:value="${pageSize}"
+                        onchange="changePageSize()"
+                        class="size-select"
+                        id="pageSize">
+                  <option th:each="s : ${sizesOfPage}" th:value="${s}" th:text="${s}"
+                          th:selected="${s == pageSize}"></option>
+                </select>
+              </div>
             </div>
-          </div>
-        </form>
+          </form>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <p> sss</p>
+      </div>
+      <div class="col-md-2">
+        <p> sss</p>
       </div>
     </div>
-    <div class="col-md-2">
-      <p> sss</p>
-    </div>
-    <div class="col-md-2">
-      <p> sss</p>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-md-8">
-      <table class="table table-hover table-responsive-xl" id="contacts">
-        <thead class="thead-light">
-        <tr>
-          <th th:replace="fragments/sorting :: sorting('id','id')"></th>
-          <th th:replace="fragments/sorting :: sorting('firstName','first name')"></th>
-          <th th:replace="fragments/sorting :: sorting('secondName','second name')"></th>
-          <th th:replace="fragments/sorting :: sorting('lastName','last name')"></th>
-          <th>Actions</th>
-        </tr>
-        </thead>
-        <div th:if="${notes.size() > 0}">
-          <tbody>
-          <tr th:each="note : ${notes}">
-            <th scope="row">[[${note.id}]]</th>
-            <td>[[${note.firstName}]]</td>
-            <td>[[${note.secondName}]]</td>
-            <td>[[${note.LastName}]]</td>
-            <td>
-              <div class="row">
-                <button type="button" class="btn btn-sm btn-success col-4" data-bs-toggle="modal"
-                        data-bs-target="#modal-note" data-bs-whatever="new">
-                  N
-                </button>
-                <button type="button" class="btn btn-sm btn-warning col-4" data-bs-toggle="modal"
-                        data-bs-target="#modal-note" data-bs-whatever="edit">
-                  E
-                </button>
-                <button type="button" class="btn btn-sm btn-danger col-4" data-bs-toggle="modal"
-                        data-bs-target="#modal-note" data-bs-whatever="delete">
-                  D
-                </button>
-              </div>
-            </td>
-          </tr>
-          </tbody>
-        </div>
-        <div th:unless="${notes.size() > 0}">
-          <tbody>
+    <div class="row">
+      <div class="col-md-8">
+        <table class="table table-hover table-responsive-xl" id="contacts">
+          <thead class="thead-light">
           <tr>
-            <th scope="row"></th>
-            <td>Add your</td>
-            <td>first</td>
-            <td>note</td>
-            <td>
-              <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal"
-                      data-bs-target="#modal-note" data-bs-whatever="new">
-                new
-              </button>
-
-            </td>
+            <th th:replace="fragments/sorting :: sorting('id','id')"></th>
+            <th th:replace="fragments/sorting :: sorting('firstName','first name')"></th>
+            <th th:replace="fragments/sorting :: sorting('secondName','second name')"></th>
+            <th th:replace="fragments/sorting :: sorting('lastName','last name')"></th>
+            <th>Actions</th>
           </tr>
-          </tbody>
-        </div>
-      </table>
+          </thead>
+          <div th:if="${notes.size() > 0}">
+            <tbody>
+            <tr th:each="note : ${notes}">
+              <th scope="row">[[${note.id}]]</th>
+              <td>[[${note.firstName}]]</td>
+              <td>[[${note.secondName}]]</td>
+              <td>[[${note.LastName}]]</td>
+              <td>
+                <div class="row">
+                  <button type="button" class="btn btn-sm btn-success col-4" data-bs-toggle="modal"
+                          data-bs-target="#modal-note" data-bs-whatever="new">
+                    N
+                  </button>
+                  <button type="button" class="btn btn-sm btn-warning col-4" data-bs-toggle="modal"
+                          data-bs-target="#modal-note" data-bs-whatever="edit">
+                    E
+                  </button>
+                  <button type="button" class="btn btn-sm btn-danger col-4" data-bs-toggle="modal"
+                          data-bs-target="#modal-note" data-bs-whatever="delete">
+                    D
+                  </button>
+                </div>
+              </td>
+            </tr>
+            </tbody>
+          </div>
+          <div th:unless="${notes.size() > 0}">
+            <tbody>
+            <tr>
+              <th scope="row"></th>
+              <td>Add your</td>
+              <td>first</td>
+              <td>note</td>
+              <td>
+                <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal"
+                        data-bs-target="#modal-note" data-bs-whatever="new">
+                  new
+                </button>
 
-      <div th:if="${totalPages> 0}">
-        <div class="d-none">
-          <p id="currentPage" th:field="currentPage"></p>
-          <p id="nextPage" th:field="nextPage"></p>
-          <p id="previousPage" th:field="previousPage"></p>
-          <p id="newPage" th:field="newPage"></p>
-        </div>
+              </td>
+            </tr>
+            </tbody>
+          </div>
+        </table>
 
-        <nav aria-label="Page navigation" id="pagination">
-          <ul class="pagination justify-content-center">
-            <li class="page-item" th:classappend="${previousPage>0} ? disabled">
-              <a class="page-link" tabindex="-1" aria-disabled="true">Previous</a>
-            </li>
-            <li th:each="pageNumber : ${#numbers.sequence(1, totalPages)}" class="page-item">
-              <a class="page-link" href="/u/notebook"
-                 th:data-page="${pageNumber}"
-                 th:text="${pageNumber}"></a>
-            </li>
-            <li class="page-item" th:classappend="${nextPage<=totalPages} ? disabled">
-              <a class="page-link" href="/u/notebook">Next</a>
-            </li>
-          </ul>
-        </nav>
+        <div th:if="${page.total> 0}">
+          <div class="d-none">
+            <p id="currentPage" th:field="${page.currentPage}"></p>
+            <p id="nextPage" th:field="${page.nextPage}"></p>
+            <p id="previousPage" th:field="${page.previousPage}"></p>
+            <p id="newPage" th:field="${page.newPage}"></p>
+          </div>
+          <nav aria-label="Page navigation" id="pagination">
+            <ul class="pagination justify-content-center">
+              <li class="page-item" th:classappend="${page.previousPage>0} ? disabled">
+                <a class="page-link" tabindex="-1" aria-disabled="true">Previous</a>
+              </li>
+              <li th:each="pageNumber : ${#numbers.sequence(1, totalPages)}" class="page-item">
+                <a class="page-link" th:data-page="${pageNumber}"
+                   th:text="${pageNumber}"></a>
+              </li>
+              <li class="page-item" th:classappend="${page.nextPage<=totalPages} ? disabled">
+                <a class="page-link">Next</a>
+              </li>
+            </ul>
+          </nav>
+
+        </div>
       </div>
     </div>
-    </div>
-
+</form>
 </div>
 <div class="modal fade" id="modal-note" tabindex="-1" aria-labelledby="title" aria-hidden="true">
   <div class="modal-dialog">

@@ -36,6 +36,10 @@ public class NotebookController {
   @GetMapping("/u/notebook")
   public String getNotes(Model model, @ModelAttribute("notebook") NotebookDTO notebook,
       @ModelAttribute("noteDTO") NoteDTO note) {
+    return fillModel(model, notebook);
+  }
+
+  private String fillModel(Model model, NotebookDTO notebook) {
     if (notebook.getPage().getCurrentPage() != notebook.getPage().getNewPage()) {
       try {
         fillPageFields(model, notebook);
@@ -53,12 +57,13 @@ public class NotebookController {
     return "/user-pages/notebook";
   }
 
+  @PostMapping("/u/notebook")
+  public void form(Model model, @ModelAttribute("notebook") NotebookDTO notebook, @ModelAttribute("noteDTO") NoteDTO note) {
+    getNotes(model, notebook, note);
+  }
+
   private void fillPageFields(Model model, NotebookDTO notebook) {
     notebook.getPage().setCurrentPage(notebook.getPage().getNewPage());
-    model.addAttribute("currentPage", notebook.getPage().getCurrentPage());
-    model.addAttribute("pageSize", notebook.getPage().getPageSize());
-    model.addAttribute("previousPage", notebook.getPage().getPreviousPage());
-    model.addAttribute("nextPage", notebook.getPage().getNextPage());
     model.addAttribute("page", notebook.getPage());
   }
 
